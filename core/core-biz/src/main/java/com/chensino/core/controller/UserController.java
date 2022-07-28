@@ -20,16 +20,22 @@ import java.util.List;
 public class UserController {
 
     @GetMapping("/{userId}")
-    public ResponseEntity getUserById(@PathVariable Integer userId) {
+    public ResponseEntity<User> getUserById(@PathVariable Integer userId) {
         User user = new User();
         user.setUsername("吴彦祖");
-        return ResponseEntity.ok(user, "根据id查询用户");
+        return ResponseEntity.ok(user, "根据id查询用户,id=" + userId);
     }
 
     @GetMapping("list")
-    public ResponseEntity userList() {
+    public ResponseEntity<List<User>> userList() {
         List<User> userList = new ArrayList<>();
         return ResponseEntity.ok(userList);
+    }
+
+    @GetMapping("exception")
+    public ResponseEntity<Object> testException() {
+        int a = 1/0;
+        return ResponseEntity.ok(a);
     }
 
 }

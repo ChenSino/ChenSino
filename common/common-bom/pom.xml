@@ -30,6 +30,16 @@
                 <artifactId>core-api</artifactId>
                 <version>${chensino.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.chensino</groupId>
+                <artifactId>common-core</artifactId>
+                <version>${chensino.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chensino</groupId>
+                <artifactId>common-security</artifactId>
+                <version>${chensino.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
