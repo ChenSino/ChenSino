@@ -31,5 +31,9 @@
             <groupId>com.chensino</groupId>
             <artifactId>common-security</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.chensino</groupId>
+            <artifactId>common-log</artifactId>
+        </dependency>
     </dependencies>
 </project>

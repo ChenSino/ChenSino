@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * @date 2022-07-28 18:12
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 public @interface OperateLog {
 
     /**

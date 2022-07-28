@@ -1,6 +1,7 @@
 package com.chensino.core.controller;
 
 import com.chensino.common.core.util.ResponseEntity;
+import com.chensino.common.log.annotation.OperateLog;
 import com.chensino.core.api.entity.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("user")
 public class UserController {
 
+    @OperateLog("根据用户id查询")
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Integer userId) {
         User user = new User();
@@ -32,6 +34,7 @@ public class UserController {
         return ResponseEntity.ok(userList);
     }
 
+    @OperateLog("测试全局异常处理")
     @GetMapping("exception")
     public ResponseEntity<Object> testException() {
         int a = 1/0;
