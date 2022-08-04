@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.chensino.common.security.exception.GlobalExceptionHandlerResolver
+  com.chensino.common.security.component.GlobalExceptionHandlerResolver
