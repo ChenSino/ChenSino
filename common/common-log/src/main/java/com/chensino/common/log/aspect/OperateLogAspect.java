@@ -2,6 +2,7 @@ package com.chensino.common.log.aspect;
 
 import com.chensino.common.log.annotation.SysLog;
 import com.chensino.common.log.entity.OperateLog;
+import com.chensino.common.log.event.OperateLogEvent;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.context.ApplicationEventPublisher;
+
+import javax.validation.Valid;
 
 /**
  * 日志切面
@@ -23,13 +26,20 @@ import org.springframework.context.ApplicationEventPublisher;
 public class OperateLogAspect {
 
     private final ApplicationEventPublisher publisher;
+
     @Around("@annotation(sysLog)")
     @SneakyThrows
-    public Object around(ProceedingJoinPoint point, SysLog sysLog){
+    public Object around(ProceedingJoinPoint point, SysLog sysLog) {
         String strClassName = point.getTarget().getClass().getName();
         String strMethodName = point.getSignature().getName();
         log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
-
-        return null;
+        Long startTime = System.currentTimeMillis();
+        Object obj = point.proceed();
+        Long endTime = System.currentTimeMillis();
+        OperateLog operateLog = new OperateLog();
+        operateLog.setTime(endTime - startTime);
+        //TODO 完善操作日志实体类
+        publisher.publishEvent(new OperateLogEvent(operateLog));
+        return obj;
     }
 }

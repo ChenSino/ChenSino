@@ -1,6 +1,7 @@
 package com.chensino.common.log;
 
 import com.chensino.common.log.aspect.OperateLogAspect;
+import com.chensino.common.log.event.OperateLogListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -18,5 +19,10 @@ public class LogAutoConfiguration {
     @Bean
     public OperateLogAspect getOperateLogAspect(ApplicationEventPublisher publisher){
         return new OperateLogAspect(publisher);
+    }
+
+    @Bean
+    public OperateLogListener operateLogListener(){
+        return new OperateLogListener();
     }
 }
