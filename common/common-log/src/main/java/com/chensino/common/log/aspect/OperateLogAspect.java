@@ -1,6 +1,7 @@
 package com.chensino.common.log.aspect;
 
-import com.chensino.common.log.annotation.OperateLog;
+import com.chensino.common.log.annotation.SysLog;
+import com.chensino.common.log.entity.OperateLog;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -22,13 +23,13 @@ import org.springframework.context.ApplicationEventPublisher;
 public class OperateLogAspect {
 
     private final ApplicationEventPublisher publisher;
-    @Around("@annotation(operateLog)")
+    @Around("@annotation(sysLog)")
     @SneakyThrows
-    public Object around(ProceedingJoinPoint point,OperateLog operateLog){
-        String logMsg = operateLog.value();
-        log.info("方法执行前置，{}",logMsg);
-        Object obj = point.proceed();
-        log.info("后置日志");
-        return obj;
+    public Object around(ProceedingJoinPoint point, SysLog sysLog){
+        String strClassName = point.getTarget().getClass().getName();
+        String strMethodName = point.getSignature().getName();
+        log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
+
+        return null;
     }
 }
