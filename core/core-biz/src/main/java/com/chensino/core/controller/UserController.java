@@ -2,8 +2,8 @@ package com.chensino.core.controller;
 
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.log.annotation.SysLog;
-import com.chensino.core.api.entity.User;
-import com.chensino.core.service.UserService;
+import com.chensino.core.service.SysUserService;
+import com.chensino.core.api.entity.SysUser;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,25 +14,25 @@ import java.util.List;
 /**
  * @author 204506
  * @version 1.0
- * @date 2022-07-28 9:33
+ * @createDate  2022-07-28 9:33
  */
 @RestController
 @RequestMapping("user")
 @AllArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final SysUserService sysUserService;
 
     @SysLog("根据用户id查询")
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        User user = userService.getUserById(userId);
-        return ResponseEntity.ok(user, "根据id查询用户,username=" + user.getUsername());
+    public ResponseEntity<SysUser> getUserById(@PathVariable Long userId) {
+        SysUser user = sysUserService.getById(userId);
+        return ResponseEntity.ok(user, "根据id查询用户,username=" + user.getUserName());
     }
 
     @GetMapping("list")
-    public ResponseEntity<List<User>> userList() {
-        List<User> userList = new ArrayList<>();
+    public ResponseEntity<List<SysUser>> userList() {
+        List<SysUser> userList = new ArrayList<>();
         return ResponseEntity.ok(userList);
     }
 
@@ -45,7 +45,7 @@ public class UserController {
 
     @SysLog("添加用户")
     @PostMapping
-    public ResponseEntity<Object> add(@Valid @RequestBody User user) {
+    public ResponseEntity<Object> add(@Valid @RequestBody SysUser user) {
         System.out.println(user);
         return ResponseEntity.ok(user);
     }

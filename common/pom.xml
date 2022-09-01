@@ -16,6 +16,7 @@
         <module>common-core</module>
         <module>common-bom</module>
         <module>common-security</module>
+        <module>common-data</module>
     </modules>
     <build>
         <plugins>

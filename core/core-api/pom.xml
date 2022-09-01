@@ -25,7 +25,6 @@
         <dependency>
             <groupId>com.chensino</groupId>
             <artifactId>common-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.chensino</groupId>
@@ -35,7 +34,25 @@
             <groupId>com.chensino</groupId>
             <artifactId>common-log</artifactId>
         </dependency>
-    </dependencies>	<build>
+        <dependency>
+            <groupId>com.chensino</groupId>
+            <artifactId>common-data</artifactId>
+        </dependency>
+        <!--JDBC相关-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>

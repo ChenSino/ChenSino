@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author 204506
  * @version 1.0
- * @date 2022-07-28 15:50
+ * @createDate  2022-07-28 15:50
  */
 @RestControllerAdvice
 @Slf4j
@@ -30,7 +30,7 @@ public class GlobalExceptionHandlerResolver {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handlerGlobalException(Exception e) {
         log.error("全局异常信息 exception={}", e.getMessage(), e);
-        return ResponseEntity.fail(e.getLocalizedMessage());
+        return ResponseEntity.fail((e instanceof NullPointerException) ? "空指针异常" : e.getLocalizedMessage());
     }
 
     /**

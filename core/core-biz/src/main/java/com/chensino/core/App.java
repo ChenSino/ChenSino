@@ -1,12 +1,14 @@
 package com.chensino.core;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author 204506
  */
-@SpringBootApplication
+@SpringBootApplication()
+@MapperScan("com.chensino.core.mapper")
 public class App {
 
     public static void main(String[] args) {

@@ -11,10 +11,13 @@
     <description>统一管理jar包版本</description>
 
     <properties>
+        <chensino.version>0.0.1-SNAPSHOT</chensino.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <lombok.version>1.18.24</lombok.version>
-        <chensino.version>0.0.1-SNAPSHOT</chensino.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <p6spy.version>3.9.1</p6spy.version>
+        <jdbc.version>8.0.30</jdbc.version>
     </properties>
 
     <dependencyManagement>
@@ -37,6 +40,11 @@
             </dependency>
             <dependency>
                 <groupId>com.chensino</groupId>
+                <artifactId>common-data</artifactId>
+                <version>${chensino.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chensino</groupId>
                 <artifactId>common-security</artifactId>
                 <version>${chensino.version}</version>
             </dependency>
@@ -45,6 +53,23 @@
                 <artifactId>common-log</artifactId>
                 <version>${chensino.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${jdbc.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
