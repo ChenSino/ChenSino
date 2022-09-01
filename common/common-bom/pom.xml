@@ -18,10 +18,17 @@
         <mybatis-plus.version>3.4.1</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
         <jdbc.version>8.0.30</jdbc.version>
+        <jedis.version>4.2.3</jedis.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${jedis.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>

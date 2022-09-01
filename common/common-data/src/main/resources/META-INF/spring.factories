@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.chensino.common.data.configuration.MybatisPlusConfiguration
+  com.chensino.common.data.configuration.mybatis.MybatisPlusConfiguration,\
+  com.chensino.common.data.configuration.cache.RedisConfiguration\
+  

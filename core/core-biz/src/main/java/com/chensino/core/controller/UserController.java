@@ -1,11 +1,13 @@
 package com.chensino.core.controller;
 
 import com.chensino.common.core.util.ResponseEntity;
+import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.common.log.annotation.SysLog;
 import com.chensino.core.service.SysUserService;
 import com.chensino.core.api.entity.SysUser;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -22,11 +24,13 @@ import java.util.List;
 public class UserController {
 
     private final SysUserService sysUserService;
+    private  final IGlobalCache globalCache;
 
     @SysLog("根据用户id查询")
     @GetMapping("/{userId}")
     public ResponseEntity<SysUser> getUserById(@PathVariable Long userId) {
         SysUser user = sysUserService.getById(userId);
+        globalCache.set("user:" + user.getUserName(), user);
         return ResponseEntity.ok(user, "根据id查询用户,username=" + user.getUserName());
     }
 
