@@ -3,11 +3,12 @@ package com.chensino.core.controller;
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.common.log.annotation.SysLog;
-import com.chensino.core.service.SysUserService;
 import com.chensino.core.api.entity.SysUser;
+import com.chensino.core.service.SysUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -21,11 +22,13 @@ import java.util.List;
 @RestController
 @RequestMapping("user")
 @AllArgsConstructor
+@Api(value = "用户管理",tags = {"用户管理"})
 public class UserController {
 
     private final SysUserService sysUserService;
     private  final IGlobalCache globalCache;
 
+    @ApiOperation(value = "根据id查询-value")
     @SysLog("根据用户id查询")
     @GetMapping("/{userId}")
     public ResponseEntity<SysUser> getUserById(@PathVariable Long userId) {
@@ -34,6 +37,7 @@ public class UserController {
         return ResponseEntity.ok(user, "根据id查询用户,username=" + user.getUserName());
     }
 
+    @ApiOperation(value = "查询列表")
     @GetMapping("list")
     public ResponseEntity<List<SysUser>> userList() {
         List<SysUser> userList = new ArrayList<>();

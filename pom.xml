@@ -22,6 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.7.2</spring-boot.version>
+        <chensino.version>${project.version}</chensino.version>
     </properties>
 
     <dependencyManagement>
@@ -29,7 +30,7 @@
             <dependency>
                 <groupId>com.chensino</groupId>
                 <artifactId>common-bom</artifactId>
-                <version>${project.version}</version>
+                <version>${chensino.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -50,18 +51,6 @@
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring-boot.version}</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.junit.vintage</groupId>
-                        <artifactId>junit-vintage-engine</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -80,10 +69,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.7.RELEASE</version>
-                <configuration>
-                    <mainClass>com.chensino.ChenSinoApplication</mainClass>
-                </configuration>
+                <version>${spring-boot.version}</version>
                 <executions>
                     <execution>
                         <id>repackage</id>

@@ -17,6 +17,7 @@
         <module>common-bom</module>
         <module>common-security</module>
         <module>common-data</module>
+        <module>common-swagger</module>
     </modules>
     <build>
         <plugins>

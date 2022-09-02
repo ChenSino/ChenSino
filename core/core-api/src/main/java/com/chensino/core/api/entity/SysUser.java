@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,36 +18,43 @@ import java.time.LocalDateTime;
  */
 @TableName(value ="t_user")
 @Data
+@ApiModel(value = "SysUser",description = "用户实体信息")
 public class SysUser implements Serializable {
     /**
      * 用户id
      */
     @TableId(type = IdType.AUTO)
+    @ApiModelProperty(value = "主键")
     private Long userId;
 
     /**
      * 用户名
      */
+    @ApiModelProperty(value = "用户名")
     private String userName;
 
     /**
      * 昵称
      */
+    @ApiModelProperty(value = "昵称")
     private String nickName;
 
     /**
      * 工号
      */
+    @ApiModelProperty(value = "昵称")
     private String employId;
 
     /**
-     * 
+     * 密码
      */
+    @ApiModelProperty(value = "昵称")
     private Integer password;
 
     /**
      * 部门id
      */
+    @ApiModelProperty(value = "昵称")
     private Integer deptId;
 
     /**
