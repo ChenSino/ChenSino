@@ -41,6 +41,7 @@
     <!--子模块可选依赖-->
     <dependencyManagement>
         <dependencies>
+            <!--引入springboot版本管理，统一依赖，子模块无需指定版本，防止冲突-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
