@@ -8,6 +8,7 @@ import com.chensino.core.system.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,6 +32,7 @@ public class UserController {
     @ApiOperation(value = "根据id查询-value")
     @SysLog("根据用户id查询")
     @GetMapping("/{userId}")
+    @PreAuthorize("@pms.hasPermission('user_query')")
     public ResponseEntity<SysUser> getUserById(@PathVariable Long userId) {
         SysUser user = sysUserService.getById(userId);
         globalCache.set("user:" + user.getUserName(), user);

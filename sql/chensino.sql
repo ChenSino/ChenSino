@@ -36,7 +36,7 @@ CREATE TABLE `t_menu` (
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) DEFAULT '0',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10452 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=10455 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='菜单权限表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `t_menu` (
 
 LOCK TABLES `t_menu` WRITE;
 /*!40000 ALTER TABLE `t_menu` DISABLE KEYS */;
-INSERT INTO `t_menu` VALUES (10451,'用户管理',NULL,'/admin/user/index',-1,NULL,1,'0','0','2022-09-05 16:29:47',NULL,'0');
+INSERT INTO `t_menu` VALUES (10451,'用户管理',NULL,'/admin/user/index',-1,NULL,1,'0','0','2022-09-05 16:29:47',NULL,'0'),(10452,'用户查看','user_query','',10451,NULL,1,'0','0','2022-09-05 16:29:47',NULL,'0'),(10453,'用户新增','user_add','',10451,NULL,1,'0','0','2022-09-05 16:29:47',NULL,'0'),(10454,'用户删除','user_del','',10451,NULL,1,'0','0','2022-09-05 16:29:47',NULL,'0');
 /*!40000 ALTER TABLE `t_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +67,7 @@ CREATE TABLE `t_role` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COMMENT='角色表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `t_role` (
 
 LOCK TABLES `t_role` WRITE;
 /*!40000 ALTER TABLE `t_role` DISABLE KEYS */;
-INSERT INTO `t_role` VALUES (1,'管理员','ROLE_ADMIN','管理员','0','2',0,'2022-09-05 16:26:14',NULL);
+INSERT INTO `t_role` VALUES (1,'管理员','ROLE_ADMIN','管理员','0','2',0,'2022-09-05 16:26:14',NULL),(2,'访客','ROLE_GUEST',' 访客权限','0','2',0,'2022-09-05 17:52:31',NULL);
 /*!40000 ALTER TABLE `t_role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +103,7 @@ CREATE TABLE `t_role_menu` (
 
 LOCK TABLES `t_role_menu` WRITE;
 /*!40000 ALTER TABLE `t_role_menu` DISABLE KEYS */;
-INSERT INTO `t_role_menu` VALUES (1,10451);
+INSERT INTO `t_role_menu` VALUES (1,10451),(1,10452),(1,10453),(1,10454);
 /*!40000 ALTER TABLE `t_role_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +128,7 @@ CREATE TABLE `t_user` (
   `del_flag` tinyint NOT NULL DEFAULT '0' COMMENT '逻辑删除标志，0：未删除，1：删除',
   `lock_flag` tinyint DEFAULT '0' COMMENT '是否禁用',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `t_user` (
 
 LOCK TABLES `t_user` WRITE;
 /*!40000 ALTER TABLE `t_user` DISABLE KEYS */;
-INSERT INTO `t_user` VALUES (1,'chensino','chensino','101234','$2a$10$HlIaEvvSRHvij/wweV3npeN6RkjDJohGJYqS33BF3/52laqOnCwu2',3,'462488588@qq.com','2022-09-01 10:01:50',NULL,-1,0,0);
+INSERT INTO `t_user` VALUES (1,'chensino','chensino','101234','$2a$10$qjl3G9aELnYIyITfiGRraerkDICiDIGvW./faw.vuCBIoQW9c4JSy',3,'462488588@qq.com','2022-09-01 10:01:50',NULL,-1,0,0),(2,'guest','guest','102222','$2a$10$qjl3G9aELnYIyITfiGRraerkDICiDIGvW./faw.vuCBIoQW9c4JSy',3,'462488588@qq.com','2022-09-01 10:01:50',NULL,-1,0,0);
 /*!40000 ALTER TABLE `t_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,7 +164,7 @@ CREATE TABLE `t_user_role` (
 
 LOCK TABLES `t_user_role` WRITE;
 /*!40000 ALTER TABLE `t_user_role` DISABLE KEYS */;
-INSERT INTO `t_user_role` VALUES (1,1);
+INSERT INTO `t_user_role` VALUES (1,1),(2,2);
 /*!40000 ALTER TABLE `t_user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -177,4 +177,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-05 17:06:53
+-- Dump completed on 2022-09-05 18:11:49

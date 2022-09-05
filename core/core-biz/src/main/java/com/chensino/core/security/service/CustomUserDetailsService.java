@@ -20,9 +20,15 @@ import java.util.*;
 public class CustomUserDetailsService implements UserDetailsService {
     private final SysUserService sysUserService;
 
+    /**
+     *
+     * @param username the username identifying the user whose data is required.
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUserName, username));
+        SysUser sysUser = Optional.ofNullable(sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUserName, username))).orElseThrow(()->new UsernameNotFoundException("用户不存在"));
         UserInfo userInfo = sysUserService.findUserInfo(sysUser);
         return getUserDetails(userInfo);
     }
@@ -34,7 +40,6 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @return
      */
     private UserDetails getUserDetails(UserInfo info) {
-        Objects.requireNonNull(info.getSysUser(), "用户不存在");
         Set<String> dbAuthsSet = new HashSet<>();
         if (ArrayUtil.isNotEmpty(info.getRoles())) {
             // 获取角色
