@@ -1,10 +1,10 @@
-package com.chensino.core.controller;
+package com.chensino.core.system.controller;
 
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.common.log.annotation.SysLog;
 import com.chensino.core.api.entity.SysUser;
-import com.chensino.core.service.SysUserService;
+import com.chensino.core.system.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;

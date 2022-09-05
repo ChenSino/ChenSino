@@ -42,24 +42,25 @@ public class SysUser implements Serializable {
     /**
      * 工号
      */
-    @ApiModelProperty(value = "昵称")
+    @ApiModelProperty(value = "工号")
     private String employId;
 
     /**
      * 密码
      */
-    @ApiModelProperty(value = "昵称")
-    private Integer password;
+    @ApiModelProperty(value = "密码")
+    private String password;
 
     /**
      * 部门id
      */
-    @ApiModelProperty(value = "昵称")
+    @ApiModelProperty(value = "部门id")
     private Integer deptId;
 
     /**
      * 邮箱
      */
+    @ApiModelProperty(value = "邮箱")
     private String email;
 
     /**
@@ -79,13 +80,21 @@ public class SysUser implements Serializable {
     /**
      * 创建人id
      */
+    @ApiModelProperty(value = "创建人id")
     private Long creatorId;
 
     /**
      * 逻辑删除标志
      */
     @TableLogic
+    @ApiModelProperty(value = "逻辑删除标志")
     private Boolean delFlag;
+
+    /**
+     * 是否禁用
+     */
+    @ApiModelProperty(value = "是否禁用")
+    private Boolean lockFlag;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chensino.core.system.mapper.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.chensino.core.api.entity.SysMenu">
+        <id property="menuId" column="menu_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="permission" column="permission" jdbcType="VARCHAR"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="keepAlive" column="keep_alive" jdbcType="CHAR"/>
+        <result property="type" column="type" jdbcType="CHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+    </resultMap>
+
+    <!--通过角色查询菜单信息-->
+    <select id="listMenusByRoleId" resultMap="BaseResultMap">
+        SELECT t_menu.*
+        FROM t_menu
+                 LEFT JOIN t_role_menu ON t_menu.menu_id = t_role_menu.menu_id
+        WHERE t_menu.del_flag = 0
+          AND t_role_menu.role_id = #{roleId}
+        ORDER BY t_menu.sort DESC
+    </select>
+
+    <!--通过角色ID 查询权限-->
+    <select id="listPermissionsByRoleIds" resultType="java.lang.String">
+        SELECT m.permission
+        FROM t_menu m,
+             t_role_menu rm
+        WHERE m.menu_id = rm.menu_id
+          AND m.del_flag = 0
+          AND rm.role_id IN (#{roleIds})
+    </select>
+</mapper>
