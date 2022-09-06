@@ -3,6 +3,8 @@ package com.chensino.common.security.component;
 import com.chensino.common.core.util.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -48,7 +50,6 @@ public class GlobalExceptionHandlerResolver {
 
     /**
      * 404
-     *
      * @param e 异常
      * @return 返回统一实体
      */
@@ -56,6 +57,22 @@ public class GlobalExceptionHandlerResolver {
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<String> handlerNoHandlerFoundException(NoHandlerFoundException e, HttpServletRequest request) {
         log.error("请求路径{}不存在 ，exception={}", request.getRequestURI(), e.getMessage(), e);
+        return ResponseEntity.fail(e.getLocalizedMessage());
+    }
+
+
+    /**
+     * 403
+     * AccessDeniedException
+     * @param e the e
+     * @return R
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity handleAccessDeniedException(AccessDeniedException e) {
+        String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
+                e.getMessage());
+        log.error("拒绝授权异常信息 ex={}", msg, e);
         return ResponseEntity.fail(e.getLocalizedMessage());
     }
 }
