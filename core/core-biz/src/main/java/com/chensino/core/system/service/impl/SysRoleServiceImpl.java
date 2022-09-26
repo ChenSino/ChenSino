@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
 * @author chenkun
@@ -21,7 +22,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
     private final SysRoleMapper sysRoleMapper;
 
     @Override
-    public List<SysRole> listRolesByUserId(Long userId) {
+    public Set<SysRole> listRolesByUserId(Long userId) {
         return sysRoleMapper.listRolesByUserId(userId);
     }
 }

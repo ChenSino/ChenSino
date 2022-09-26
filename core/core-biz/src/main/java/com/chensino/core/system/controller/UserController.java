@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,8 +43,7 @@ public class UserController {
     @ApiOperation(value = "查询列表")
     @GetMapping("list")
     public ResponseEntity<List<SysUser>> userList() {
-        List<SysUser> userList = new ArrayList<>();
-        return ResponseEntity.ok(userList);
+        return ResponseEntity.ok(sysUserService.list());
     }
 
     @SysLog("测试全局异常处理")
@@ -60,4 +60,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+
+    @SysLog("获取权限")
+    @GetMapping("authentication")
+    @PreAuthorize("@pms.hasPermission('ADMIN')")
+    public ResponseEntity<Object> getAuthentication() {
+        return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
+    }
 }

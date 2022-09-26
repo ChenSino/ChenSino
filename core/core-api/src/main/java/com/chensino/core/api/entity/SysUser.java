@@ -13,12 +13,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 用户表
+ * 用户实体，不直接继承{@link org.springframework.security.core.userdetails.User}是因为此实体是直接和数据库字段
+ * 有映射关系，为避免麻烦，再另外创建一个类，继承{@link org.springframework.security.core.userdetails.User}
+ * @see CustomSecurityUser
  * @TableName t_user
  */
 @TableName(value ="t_user")
-@Data
 @ApiModel(value = "SysUser",description = "用户实体信息")
+@Data
 public class SysUser implements Serializable {
     /**
      * 用户id
@@ -51,6 +53,17 @@ public class SysUser implements Serializable {
     @ApiModelProperty(value = "密码")
     private String password;
 
+    /**
+     * 手机号
+     */
+    @ApiModelProperty(value = "手机号")
+    private String phone;
+
+    /**
+     * 头像
+     */
+    @ApiModelProperty(value = "头像地址")
+    private String avatar;
     /**
      * 部门id
      */
@@ -98,4 +111,5 @@ public class SysUser implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
 }

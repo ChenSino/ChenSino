@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.chensino.core.api.entity.SysRole;
 
 import java.util.List;
+import java.util.Set;
 
 /**
 * @author chenkun
@@ -11,5 +12,5 @@ import java.util.List;
 * @createDate 2022-09-05 14:19:12
 */
 public interface SysRoleService extends IService<SysRole> {
-    List<SysRole> listRolesByUserId(Long userId);
+    Set<SysRole> listRolesByUserId(Long userId);
 }

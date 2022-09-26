@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 角色表
@@ -75,4 +76,18 @@ public class SysRole implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SysRole sysRole = (SysRole) o;
+        return Objects.equals(roleId, sysRole.roleId) && Objects.equals(roleName, sysRole.roleName) && Objects.equals(roleCode, sysRole.roleCode) && Objects.equals(roleDesc, sysRole.roleDesc) && Objects.equals(dsType, sysRole.dsType) && Objects.equals(dsScope, sysRole.dsScope) && Objects.equals(createTime, sysRole.createTime) && Objects.equals(updateTime, sysRole.updateTime) && Objects.equals(delFlag, sysRole.delFlag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(roleId, roleName, roleCode, roleDesc, dsType, dsScope, createTime, updateTime, delFlag);
+    }
 }

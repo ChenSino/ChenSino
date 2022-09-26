@@ -4,6 +4,7 @@ import com.chensino.core.api.entity.SysRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
+import java.util.Set;
 
 /**
 * @author chenkun
@@ -13,7 +14,7 @@ import java.util.List;
 */
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
-    List<SysRole> listRolesByUserId(Long userId);
+    Set<SysRole> listRolesByUserId(Long userId);
 }
 
 

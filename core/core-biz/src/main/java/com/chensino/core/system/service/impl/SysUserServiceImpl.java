@@ -38,10 +38,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     public UserInfo findUserInfo(SysUser sysUser) {
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
-        List<SysRole> sysRoles = sysRoleMapper.listRolesByUserId(sysUser.getUserId());
+        Set<SysRole> sysRoles = sysRoleMapper.listRolesByUserId(sysUser.getUserId());
         //设置角色ID
         List<Integer> roleIds = sysRoles.stream().map(SysRole::getRoleId).collect(Collectors.toList());
-        userInfo.setRoles(ArrayUtil.toArray(roleIds,Integer.class));
+        //设置角色
+        userInfo.setRoles(sysRoles);
         //根据角色查权限，设置权限
         Set<String> permissions = new HashSet<>();
         roleIds.forEach(roleId->{
