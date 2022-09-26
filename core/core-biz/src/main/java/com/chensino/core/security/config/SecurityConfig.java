@@ -72,7 +72,7 @@ public class SecurityConfig {
 
     @Bean
     UserDetailsService userDetailsService(SysUserService sysUserService) {
-        System.out.println(new BCryptPasswordEncoder().encode("123456"));
+//        System.out.println(new BCryptPasswordEncoder().encode("123456"));
         return new CustomUserDetailsService(sysUserService);
     }
 }

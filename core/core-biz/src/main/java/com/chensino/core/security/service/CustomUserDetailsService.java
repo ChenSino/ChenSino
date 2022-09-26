@@ -41,9 +41,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails getUserDetails(UserInfo info) {
         Set<String> dbAuthsSet = new HashSet<>();
         if (ArrayUtil.isNotEmpty(info.getRoles())) {
-            // 获取角色
+            // 把角色写入用户信息
             info.getRoles().forEach(role -> dbAuthsSet.add(SecurityConstants.ROLE + role.getRoleCode()));
-            // 获取资源
+            // 把权限（资源）写入用户信息
             dbAuthsSet.addAll(Arrays.asList(info.getPermissions()));
         }
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils

@@ -63,7 +63,7 @@ public class UserController {
 
     @SysLog("获取权限")
     @GetMapping("authentication")
-    @PreAuthorize("@pms.hasPermission('ADMIN')")
+    @PreAuthorize("@pms.hasRole('ADMIN')")
     public ResponseEntity<Object> getAuthentication() {
         return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
     }

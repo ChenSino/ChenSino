@@ -18,6 +18,7 @@
 package com.chensino.core.security.utils;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.chensino.common.core.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,7 +27,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author ccs
@@ -52,6 +56,20 @@ public class PermissionService {
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		return authorities.stream().map(GrantedAuthority::getAuthority).filter(StringUtils::hasText)
 				.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
+	}
+
+	/**
+	 * 角色和权限都在用户的authorities字段中，不同之处是用户上下文中存储的角色会自动加上ROLE_前缀，所以判断时需要对应上，手动加上ROLE_后，
+	 * 变成ROLE_ADMIN，实际和普通权限一样，因此可以调用 {@link PermissionService#hasPermission(String...)}进行判断
+	 * @param roles
+	 * @return
+	 */
+	public boolean hasRole(String... roles){
+		if (ArrayUtil.isEmpty(roles)) {
+			return false;
+		}
+		List<String> list = Arrays.stream(roles).map(role -> SecurityConstants.ROLE + role).collect(Collectors.toList());
+		return this.hasPermission(ArrayUtil.toArray(list,String.class));
 	}
 
 }
