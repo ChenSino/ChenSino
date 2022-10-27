@@ -1,5 +1,6 @@
 package com.chensino.core.system.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.common.log.annotation.SysLog;
@@ -12,23 +13,29 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.net.HttpCookie;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author 204506
  * @version 1.0
- * @createDate  2022-07-28 9:33
+ * @createDate 2022-07-28 9:33
  */
 @RestController
 @RequestMapping("user")
 @AllArgsConstructor
-@Api(value = "用户管理",tags = {"用户管理"})
+@Api(value = "用户管理", tags = {"用户管理"})
 public class UserController {
 
     private final SysUserService sysUserService;
-    private  final IGlobalCache globalCache;
+    private final IGlobalCache globalCache;
 
     @ApiOperation(value = "根据id查询-value")
     @SysLog("根据用户id查询")
@@ -46,12 +53,48 @@ public class UserController {
         return ResponseEntity.ok(sysUserService.list());
     }
 
+    @ApiOperation(value = "测试跳过所有过滤器")
+    @GetMapping("jumpAllFilterTest")
+    public ResponseEntity<String> jumpAllFilterTest() {
+        return ResponseEntity.ok("通过webSecurityCustomizer()跳过Security所有过滤器");
+    }
+
+    @ApiOperation(value = "Cookie测试")
+    @GetMapping("test-cookie")
+    public ResponseEntity<String> testCookie(HttpServletRequest request,HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies !=null && cookies.length>0) {
+            for (Cookie cookie:cookies ){
+                System.out.println(cookie.getName());
+                System.out.println(cookie.getValue());
+                System.out.println(cookie.getDomain());
+                System.out.println(cookie.getPath());
+                System.out.println(cookie.getMaxAge());
+                System.out.println(cookie.getSecure());
+                System.out.println(cookie.getVersion());
+                System.out.println("------------------------");
+            }
+        }
+        Cookie cookie1 = new Cookie("myCookie", "1234");
+        cookie1.setDomain("aaa.com");
+        cookie1.setPath("/");
+        response.addCookie(cookie1);
+
+        Cookie cookie2 = new Cookie("myCookie2", "456789");
+        cookie2.setDomain("bbbb.aaaa.com");
+        cookie2.setPath("/somepath");
+        response.addCookie(cookie2);
+
+
+        return ResponseEntity.ok("通过webSecurityCustomizer()跳过Security所有过滤器");
+    }
     @SysLog("测试全局异常处理")
     @GetMapping("exception")
     public ResponseEntity<Object> testException() {
-        int a = 1/0;
+        int a = 1 / 0;
         return ResponseEntity.ok(a);
     }
+
 
     @SysLog("添加用户")
     @PostMapping
