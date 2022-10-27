@@ -40,7 +40,7 @@ public class SecurityConfig {
      */
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/user/jumpAllFilterTest");
+        return web -> web.ignoring().antMatchers("/user/jumpAllFilterTest","/user/getSession");
     }
 
     /**

@@ -50,7 +50,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
             <dependency>
                 <groupId>com.chensino</groupId>
                 <artifactId>core-api</artifactId>

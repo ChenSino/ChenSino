@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.net.HttpCookie;
 import java.util.ArrayList;
@@ -88,6 +89,16 @@ public class UserController {
 
         return ResponseEntity.ok("通过webSecurityCustomizer()跳过Security所有过滤器");
     }
+
+    @GetMapping("getSession")
+    public String getSession(HttpSession session) throws InterruptedException {
+        for (int i = 0; i < 20; i++) {
+            Thread.sleep(1000);
+            System.out.println(session.getId());
+        }
+        return session.toString();
+    }
+
     @SysLog("测试全局异常处理")
     @GetMapping("exception")
     public ResponseEntity<Object> testException() {
