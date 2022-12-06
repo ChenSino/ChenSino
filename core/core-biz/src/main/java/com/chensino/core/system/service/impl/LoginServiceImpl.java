@@ -17,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -32,6 +34,8 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public ResponseEntity login(SysUser sysUser) {
+        //TODO 重复登录逻辑
+
         //构造一个未认证的对象
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(sysUser.getUserName(), sysUser.getPassword());
         //1. 使用AuthenticationManager认证用户
@@ -45,6 +49,9 @@ public class LoginServiceImpl implements LoginService {
         CustomSecurityUser customSecurityUser = (CustomSecurityUser) authenticate.getPrincipal();
         //4. token存入redis
         redisTemplate.set(CacheConst.TOKEN_PREFIX + StrPool.COLON + token,customSecurityUser,expiration);
-        return ResponseEntity.ok(token);
+        Map<String, Object> data = new HashMap<>(4);
+        data.put("access_token",token);
+        data.put("authorities",authenticate.getAuthorities());
+        return ResponseEntity.ok(data);
     }
 }

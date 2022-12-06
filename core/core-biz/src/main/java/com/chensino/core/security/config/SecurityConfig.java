@@ -1,5 +1,6 @@
 package com.chensino.core.security.config;
 
+import com.chensino.core.security.entrypoint.CustomAuthenticationEntryPoint;
 import com.chensino.core.security.filter.TokenAuthenticationFilter;
 import com.chensino.core.security.service.CustomUserDetailsService;
 import com.chensino.core.system.service.SysUserService;
@@ -27,7 +28,9 @@ public class SecurityConfig {
 
     @Autowired
     private TokenAuthenticationFilter tokenAuthenticationFilter;
-//
+
+    @Autowired
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
@@ -73,9 +76,9 @@ public class SecurityConfig {
 //                .formLogin()
 //                .permitAll()
 
-                // 捕获成功认证后无权限访问异常，直接跳转到 百度
+                // 异常处理
                 .exceptionHandling()
-                .accessDeniedHandler((request, response, exception) -> response.sendRedirect("http://www.baidu.com"))
+                .authenticationEntryPoint(customAuthenticationEntryPoint)
 
                 .and()
                 .sessionManagement()
