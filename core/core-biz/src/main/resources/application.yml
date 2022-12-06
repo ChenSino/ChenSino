@@ -10,7 +10,7 @@ spring:
     name: chensino-core
   redis:
     database: 0
-    password: 123456
+    password: sonoscape
     host: chensino-redis
     port: 6379
     timeout: 1000
@@ -40,3 +40,5 @@ mybatis-plus:
       logic-delete-field: delFlag  #逻辑删除
       logic-delete-value: 1
       logic-not-delete-value: 0
+token:
+  expiration: 36000

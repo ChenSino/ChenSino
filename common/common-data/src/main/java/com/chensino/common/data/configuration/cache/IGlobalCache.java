@@ -52,7 +52,7 @@ public interface IGlobalCache {
      * @param key 键
      * @return 值
      */
-    Object get(String key);
+    <T> T get(String key);
 
     /**
      * 普通缓存放入

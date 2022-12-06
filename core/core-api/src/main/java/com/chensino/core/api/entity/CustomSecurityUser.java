@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
@@ -12,7 +13,7 @@ import java.util.Collection;
  * @Description
  * @Date 2022/9/26
  */
-public class CustomSecurityUser extends org.springframework.security.core.userdetails.User {
+public class CustomSecurityUser extends User {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
@@ -39,6 +40,8 @@ public class CustomSecurityUser extends org.springframework.security.core.userde
      */
     @Getter
     private String avatar;
+
+
 
 
     /**

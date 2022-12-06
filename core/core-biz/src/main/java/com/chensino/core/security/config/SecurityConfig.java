@@ -1,25 +1,33 @@
 package com.chensino.core.security.config;
 
+import com.chensino.core.security.filter.TokenAuthenticationFilter;
 import com.chensino.core.security.service.CustomUserDetailsService;
 import com.chensino.core.system.service.SysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+    @Autowired
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
+//
 
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
@@ -40,7 +48,7 @@ public class SecurityConfig {
      */
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers("/user/jumpAllFilterTest","/user/getSession");
+        return web -> web.ignoring().antMatchers("/user/jumpAllFilterTest", "/user/getSession");
     }
 
     /**
@@ -49,30 +57,46 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSiteSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http.antMatcher("/**")
+        return http
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                // 所有请求都必须要认证才可以访问
-                .anyRequest()
-                .hasRole("ADMIN")
-//                .permitAll()
+                .mvcMatchers("/login")
+                .permitAll()
+                .anyRequest()//剩下所有的请求
+                .authenticated()  // 所有请求都必须要认证才可以访问
+
                 .and()
                 // 禁用csrf
                 .csrf()
                 .disable()
                 // 启用表单登录
-                .formLogin()
-                .permitAll()
-                .and()
+//                .formLogin()
+//                .permitAll()
+
                 // 捕获成功认证后无权限访问异常，直接跳转到 百度
                 .exceptionHandling()
                 .accessDeniedHandler((request, response, exception) -> response.sendRedirect("http://www.baidu.com"))
+
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //禁止生成session,也不会向客户端返回session
                 .and()
                 .build();
     }
 
     @Bean
     UserDetailsService userDetailsService(SysUserService sysUserService) {
-//        System.out.println(new BCryptPasswordEncoder().encode("123456"));
         return new CustomUserDetailsService(sysUserService);
+    }
+
+    /**
+     * 新版本security获取AuthenticationManager的方法
+     * @param authenticationConfiguration
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
