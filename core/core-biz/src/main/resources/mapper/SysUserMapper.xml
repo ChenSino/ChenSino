@@ -16,6 +16,9 @@
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="creatorId" column="creator_id" jdbcType="BIGINT"/>
     </resultMap>
+    <select id="findUserByPhone" resultType="com.chensino.core.api.entity.SysUser">
+        SELECT * FROM t_user where phone = #{phone}
+    </select>
 
 
 </mapper>

@@ -12,4 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface SysUserService extends IService<SysUser> {
 
     UserInfo findUserInfo(SysUser sysUser);
+
+    SysUser findUserByPhone(String phone);
 }

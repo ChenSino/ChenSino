@@ -41,7 +41,7 @@ public class UserController {
     @ApiOperation(value = "根据id查询-value")
     @SysLog("根据用户id查询")
     @GetMapping("/{userId}")
-    @PreAuthorize("@pms.hasPermission('user_query')")
+    @PreAuthorize("@pms.hasPermission('user_query') && @pms.hasPermission('user_update')")
     public ResponseEntity<SysUser> getUserById(@PathVariable Long userId) {
         SysUser user = sysUserService.getById(userId);
         globalCache.set("user:" + user.getUserName(), user);

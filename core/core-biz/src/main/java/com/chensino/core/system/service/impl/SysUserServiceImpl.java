@@ -54,6 +54,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
         return userInfo;
     }
+
+    @Override
+    public SysUser findUserByPhone(String phone) {
+        return sysUserMapper.findUserByPhone(phone);
+    }
 }
 
 

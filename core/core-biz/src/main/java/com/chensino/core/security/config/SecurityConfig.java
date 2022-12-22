@@ -2,6 +2,7 @@ package com.chensino.core.security.config;
 
 import com.chensino.core.security.entrypoint.CustomAuthenticationEntryPoint;
 import com.chensino.core.security.filter.TokenAuthenticationFilter;
+import com.chensino.core.security.provider.CustomMobileAuthenticationProvider;
 import com.chensino.core.security.service.CustomUserDetailsService;
 import com.chensino.core.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +30,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    @Autowired
+    private UserDetailsService userDetailsService;
     @Autowired
     private TokenAuthenticationFilter tokenAuthenticationFilter;
 
@@ -54,6 +60,9 @@ public class SecurityConfig {
         return web -> web.ignoring().antMatchers("/user/jumpAllFilterTest", "/user/getSession");
     }
 
+
+    @Autowired
+    private CustomMobileAuthenticationProvider customMobileAuthenticationProvider;
     /**
      * 处理接口权限
      */
@@ -63,7 +72,7 @@ public class SecurityConfig {
         return http
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .mvcMatchers("/login")
+                .mvcMatchers("/login","/login/phone")
                 .permitAll()
                 .anyRequest()//剩下所有的请求
                 .authenticated()  // 所有请求都必须要认证才可以访问
@@ -75,31 +84,56 @@ public class SecurityConfig {
                 // 启用表单登录
 //                .formLogin()
 //                .permitAll()
-
+//                .and()
                 // 异常处理
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
 
                 .and()
+//                .authenticationProvider(customMobileAuthenticationProvider)
+//                .authenticationProvider(new DaoAuthenticationProvider())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //禁止生成session,也不会向客户端返回session
                 .and()
                 .build();
     }
 
-    @Bean
-    UserDetailsService userDetailsService(SysUserService sysUserService) {
-        return new CustomUserDetailsService(sysUserService);
-    }
 
     /**
-     * 新版本security获取AuthenticationManager的方法
+     * 新版本security获取AuthenticationManager的两种方法
      * @param authenticationConfiguration
      * @return
      * @throws Exception
      */
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
+
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(customMobileAuthenticationProvider);
+        authenticationManagerBuilder.authenticationProvider(authProvider());
+
+        return authenticationManagerBuilder.build();
     }
+
+
+    /**
+     * 默认AuthenticationProvider,如果创建了自定义AuthenticationProvider，则默认的就不会被注入到AuthenticationManager,
+     * 所以如果还想保留默认的，需要手动创建bean,并在AuthenticationManager中注入
+     * @return
+     */
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        return authenticationProvider;
+    }
+
+
 }

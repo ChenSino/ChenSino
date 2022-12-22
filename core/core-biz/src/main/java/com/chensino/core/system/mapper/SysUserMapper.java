@@ -11,6 +11,7 @@ import com.chensino.core.api.entity.SysUser;
 */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
+    SysUser findUserByPhone(String phone);
 }
 
 

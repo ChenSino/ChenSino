@@ -19,7 +19,11 @@ public class LoginController {
     private final LoginService loginService;
     @PostMapping
     public ResponseEntity login(@RequestBody SysUser sysUser){
-
         return loginService.login(sysUser);
+    }
+
+    @PostMapping("phone")
+    public ResponseEntity login(String phone,String code){
+        return loginService.loginByPhone(phone,code);
     }
 }

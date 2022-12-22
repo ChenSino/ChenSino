@@ -7,4 +7,7 @@ import com.chensino.core.api.vo.UserVO;
 public interface LoginService {
 
     ResponseEntity login(SysUser user);
+
+    ResponseEntity loginByPhone(String phone, String code);
+
 }
