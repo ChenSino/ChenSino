@@ -42,3 +42,10 @@ mybatis-plus:
       logic-not-delete-value: 0
 token:
   expiration: 36000
+
+## 暴露actuator所有端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
