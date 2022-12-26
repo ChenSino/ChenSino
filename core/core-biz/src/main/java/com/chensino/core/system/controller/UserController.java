@@ -5,6 +5,7 @@ import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.common.log.annotation.SysLog;
 import com.chensino.core.api.entity.SysUser;
+import com.chensino.core.extendpoint.PrintApplicationArgs;
 import com.chensino.core.system.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,6 +39,8 @@ public class UserController {
     private final SysUserService sysUserService;
     private final IGlobalCache globalCache;
 
+    private final PrintApplicationArgs printApplicationArgs;
+
     @ApiOperation(value = "根据id查询-value")
     @SysLog("根据用户id查询")
     @GetMapping("/{userId}")
@@ -50,7 +53,11 @@ public class UserController {
 
     @ApiOperation(value = "查询列表")
     @GetMapping("list")
-    public ResponseEntity<List<SysUser>> userList() {
+    public ResponseEntity<List<SysUser>> userList() throws InterruptedException {
+        System.out.println("进入list");
+        Thread.sleep(10000);
+        System.out.println("休眠结束。。。。");
+        System.out.println(printApplicationArgs);
         return ResponseEntity.ok(sysUserService.list());
     }
 

@@ -4,8 +4,14 @@ server:
     threads:
       max: 3
     max-connections: 2
-    connection-timeout: 10
+    connection-timeout: 1000
+    accept-count: 10
+    ##优雅关机，打开 优雅关机后要配合kill -2 <processId>，不能kill -9
+  shutdown: graceful
 spring:
+  main:
+    #懒加载bean,用到的时候再创建，默认为false,类似BeanFactory
+    lazy-initialization: true
   application:
     name: chensino-core
   redis:
@@ -49,3 +55,10 @@ management:
     web:
       exposure:
         include: "*"
+        ##自定义监控路径，默认为/actuator
+      base-path: /management
+info:
+  app:
+    java:
+      source: 11
+      target: 11
