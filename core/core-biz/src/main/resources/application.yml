@@ -62,3 +62,14 @@ info:
     java:
       source: 11
       target: 11
+security:
+  oauth2:
+    client:
+      client-id: pig
+      client-secret: pig
+      user-authorization-uri: http://127.0.0.1:3000/oauth/authorize
+      access-token-uri: http://127.0.0.1:3000/oauth/token
+      scope: server
+    resource:
+      loadBalanced: true
+      token-info-uri: http://127.0.0.1:3000/oauth/check_token

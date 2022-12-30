@@ -55,7 +55,6 @@ public class UserController {
     @GetMapping("list")
     public ResponseEntity<List<SysUser>> userList() throws InterruptedException {
         System.out.println("进入list");
-        Thread.sleep(10000);
         System.out.println("休眠结束。。。。");
         System.out.println(printApplicationArgs);
         return ResponseEntity.ok(sysUserService.list());
@@ -124,7 +123,7 @@ public class UserController {
 
     @SysLog("获取权限")
     @GetMapping("authentication")
-    @PreAuthorize("@pms.hasRole('ADMIN')")
+//    @PreAuthorize("@pms.hasRole('ADMIN')")
     public ResponseEntity<Object> getAuthentication() {
         return ResponseEntity.ok(SecurityContextHolder.getContext().getAuthentication());
     }
