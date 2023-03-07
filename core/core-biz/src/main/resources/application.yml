@@ -8,6 +8,8 @@ server:
     accept-count: 10
     ##优雅关机，打开 优雅关机后要配合kill -2 <processId>，不能kill -9
   shutdown: graceful
+#  servlet:
+#    context-path: /chensino
 spring:
   main:
     #懒加载bean,用到的时候再创建，默认为false,类似BeanFactory
@@ -62,14 +64,21 @@ info:
     java:
       source: 11
       target: 11
-security:
-  oauth2:
-    client:
-      client-id: pig
-      client-secret: pig
-      user-authorization-uri: http://127.0.0.1:3000/oauth/authorize
-      access-token-uri: http://127.0.0.1:3000/oauth/token
-      scope: server
-    resource:
-      loadBalanced: true
-      token-info-uri: http://127.0.0.1:3000/oauth/check_token
+#security:
+#  oauth2:
+#    client:
+#      client-id: pig
+#      client-secret: pig
+#      user-authorization-uri: http://127.0.0.1:3000/oauth/authorize
+#      access-token-uri: http://127.0.0.1:3000/oauth/token
+#      scope: server
+#    resource:
+#      loadBalanced: true
+#      token-info-uri: http://127.0.0.1:3000/oauth/check_token
+minio:
+  endpoint: chensino-minio
+  port: 9000
+  access-key: HqufY5uPWRYVj49l
+  secret-key: JTUw9VxTkceN0VpYqIQJ1UAGSRkrYtA8
+  secure: false
+  bucket-name: chensino

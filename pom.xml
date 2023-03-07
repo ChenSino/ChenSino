@@ -28,6 +28,7 @@
         <jdbc.version>8.0.30</jdbc.version>
         <springfox.boot.starter.version>3.0.0</springfox.boot.starter.version>
         <hutool.version>5.8.5</hutool.version>
+        <minio.version>8.5.0</minio.version>
     </properties>
 
     <!--子模块公共依赖-->
@@ -106,6 +107,11 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

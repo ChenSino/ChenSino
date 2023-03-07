@@ -17,6 +17,7 @@
         <module>common-security</module>
         <module>common-data</module>
         <module>common-swagger</module>
+        <module>common-oss</module>
     </modules>
     <build>
         <plugins>

@@ -3,7 +3,6 @@ package com.chensino.core.security.config;
 import com.chensino.core.security.provider.CustomMobileAuthenticationProvider;
 import com.chensino.core.security.provider.CustomOauthAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -18,10 +17,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableOAuth2Sso
+//@Configuration
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableOAuth2Sso
 @Order(111)
 public class SecurityConfigOAuth extends WebSecurityConfigurerAdapter {
     @Autowired
