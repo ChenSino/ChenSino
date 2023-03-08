@@ -76,9 +76,16 @@ info:
 #      loadBalanced: true
 #      token-info-uri: http://127.0.0.1:3000/oauth/check_token
 minio:
-  endpoint: chensino-minio
+  endpoint: chensino-minio:9000
+  region: ap-southeast-1
   port: 9000
   access-key: HqufY5uPWRYVj49l
   secret-key: JTUw9VxTkceN0VpYqIQJ1UAGSRkrYtA8
   secure: false
   bucket-name: chensino
+#minio:
+#  endpoint: http://obs.ap-southeast-1.myhuaweicloud.com
+#  access-key: 2KBFFO4DOONQYSKLRYEP
+#  secret-key: rhwiVviDVbjfmUvFTHCAGmOj64PsL1hDIsrkje99
+#  bucket-name: ccs
+#  region: ap-southeast-1

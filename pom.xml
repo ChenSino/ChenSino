@@ -28,7 +28,7 @@
         <jdbc.version>8.0.30</jdbc.version>
         <springfox.boot.starter.version>3.0.0</springfox.boot.starter.version>
         <hutool.version>5.8.5</hutool.version>
-        <minio.version>8.5.0</minio.version>
+        <aws.version>1.11.543</aws.version>
     </properties>
 
     <!--子模块公共依赖-->
@@ -109,9 +109,9 @@
                 <version>${hutool.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.minio</groupId>
-                <artifactId>minio</artifactId>
-                <version>${minio.version}</version>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>${aws.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
