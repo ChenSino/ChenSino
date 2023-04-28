@@ -6,7 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.chensino.core.api.entity.SysUser">
             <id property="userId" column="user_id" jdbcType="BIGINT"/>
-            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
             <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
             <result property="employId" column="employ_id" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="INTEGER"/>

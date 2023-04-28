@@ -1,6 +1,5 @@
 package com.chensino.core.system.controller;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.common.log.annotation.SysLog;
@@ -19,11 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.net.HttpCookie;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author 204506
@@ -47,8 +42,8 @@ public class UserController {
     @PreAuthorize("@pms.hasPermission('user_query') && @pms.hasPermission('user_update')")
     public ResponseEntity<SysUser> getUserById(@PathVariable Long userId) {
         SysUser user = sysUserService.getById(userId);
-        globalCache.set("user:" + user.getUserName(), user);
-        return ResponseEntity.ok(user, "根据id查询用户,username=" + user.getUserName());
+        globalCache.set("user:" + user.getUsername(), user);
+        return ResponseEntity.ok(user, "根据id查询用户,username=" + user.getUsername());
     }
 
     @ApiOperation(value = "查询列表")

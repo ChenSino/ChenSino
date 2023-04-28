@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = Optional.ofNullable(sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUserName, username))).orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+        SysUser sysUser = Optional.ofNullable(sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username))).orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
         UserInfo userInfo = sysUserService.findUserInfo(sysUser);
         return getUserDetails(userInfo);
     }
@@ -51,6 +51,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils
                 .createAuthorityList(dbAuthsSet.toArray(new String[0]));
         SysUser user = info.getSysUser();
-        return new CustomSecurityUser(user.getUserId(), user.getDeptId(), user.getPhone(), user.getAvatar(), user.getUserName(), user.getPassword(), !user.getLockFlag(), true, true, !user.getLockFlag(), authorities);
+        return new CustomSecurityUser(user.getUserId(), user.getDeptId(), user.getPhone(), user.getAvatar(), user.getUsername(), user.getPassword(), !user.getLockFlag(), true, true, !user.getLockFlag(), authorities);
     }
 }

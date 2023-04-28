@@ -4,14 +4,9 @@ import cn.hutool.core.text.StrPool;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.common.data.configuration.constant.CacheConst;
 import com.chensino.core.api.entity.CustomSecurityUser;
-import com.chensino.core.api.entity.SysUser;
-import com.chensino.core.security.service.CustomUserDetailsService;
-import com.chensino.core.system.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -38,7 +33,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         //3. 根据token查询用户信息，目标是设置SecurityContext
-        CustomSecurityUser customSecurityUser = redisTemplate.get(CacheConst.TOKEN_PREFIX + StrPool.COLON + token);
+        CustomSecurityUser customSecurityUser = redisTemplate.get(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + token);
         if (Objects.nonNull(customSecurityUser)) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(customSecurityUser.getUsername(), customSecurityUser.getPassword(), customSecurityUser.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
