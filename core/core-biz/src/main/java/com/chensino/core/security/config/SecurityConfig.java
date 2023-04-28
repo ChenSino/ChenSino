@@ -72,7 +72,7 @@ public class SecurityConfig {
         return http
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .mvcMatchers("/login","/login/phone","/management","/management/**")
+                .mvcMatchers("/login/**","/login/phone","/management","/management/**")
                 .permitAll()
                 .anyRequest()//剩下所有的请求
                 .authenticated()  // 所有请求都必须要认证才可以访问

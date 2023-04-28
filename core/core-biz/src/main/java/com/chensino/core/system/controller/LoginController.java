@@ -1,10 +1,12 @@
 package com.chensino.core.system.controller;
 
 import com.chensino.common.core.util.ResponseEntity;
-import com.chensino.core.api.entity.SysUser;
+import com.chensino.core.api.dto.LoginUserDTO;
+import com.chensino.core.api.vo.LoginUserVO;
 import com.chensino.core.system.service.LoginService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,15 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Data
 public class LoginController {
 
-    @Autowired
     private final LoginService loginService;
     @PostMapping
-    public ResponseEntity login(@RequestBody SysUser sysUser){
-        return loginService.login(sysUser);
-    }
-
-    @PostMapping("phone")
-    public ResponseEntity login(String phone,String code){
-        return loginService.loginByPhone(phone,code);
+    public ResponseEntity login(@RequestBody @Validated LoginUserDTO loginUserDTO){
+        return ResponseEntity.ok(loginService.login(loginUserDTO));
     }
 }

@@ -11,6 +11,10 @@ server:
 #  servlet:
 #    context-path: /chensino
 spring:
+  freemarker:
+    suffix: .ftl
+    cache: false
+    template-loader-path: classpath:/templates/
   main:
     #懒加载bean,用到的时候再创建，默认为false,类似BeanFactory
     lazy-initialization: true
@@ -83,9 +87,3 @@ minio:
   secret-key: JTUw9VxTkceN0VpYqIQJ1UAGSRkrYtA8
   secure: false
   bucket-name: chensino
-#minio:
-#  endpoint: http://obs.ap-southeast-1.myhuaweicloud.com
-#  access-key: 2KBFFO4DOONQYSKLRYEP
-#  secret-key: rhwiVviDVbjfmUvFTHCAGmOj64PsL1hDIsrkje99
-#  bucket-name: ccs
-#  region: ap-southeast-1
