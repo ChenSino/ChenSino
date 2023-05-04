@@ -87,3 +87,13 @@ minio:
   secret-key: JTUw9VxTkceN0VpYqIQJ1UAGSRkrYtA8
   secure: false
   bucket-name: chensino
+
+oauth:
+  github:
+    clientId: _2ffe46c475714a109510
+    secret: _066267a9ba3916219e3e3de1531b04dd4f3df3e9
+    redirectUri: http://chensino:8888/login/oauth2/code/github
+    authorizeUrl: https://github.com/login/oauth/authorize
+    accessTokenUrl: https://github.com/login/oauth/access_token
+    userInfoUrl: https://api.github.com/user
+    frontendHost: http://chensino-web:3333

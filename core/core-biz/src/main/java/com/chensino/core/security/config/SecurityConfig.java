@@ -2,18 +2,15 @@ package com.chensino.core.security.config;
 
 import com.chensino.core.security.entrypoint.CustomAuthenticationEntryPoint;
 import com.chensino.core.security.filter.TokenAuthenticationFilter;
-import com.chensino.core.security.provider.CustomMobileAuthenticationProvider;
-import com.chensino.core.security.service.CustomUserDetailsService;
-import com.chensino.core.system.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.chensino.core.security.provider.GithubAuthenticationProvider;
+import com.chensino.core.security.provider.PhoneAuthenticationProvider;
+import lombok.Data;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,16 +25,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@Data
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private TokenAuthenticationFilter tokenAuthenticationFilter;
 
-    @Autowired
-    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final UserDetailsService userDetailsService;
 
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+
+    private  final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    private final PhoneAuthenticationProvider phoneAuthenticationProvider;
+
+    private final GithubAuthenticationProvider githubAuthenticationProvider;
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
      *
@@ -61,8 +61,7 @@ public class SecurityConfig {
     }
 
 
-    @Autowired
-    private CustomMobileAuthenticationProvider customMobileAuthenticationProvider;
+
     /**
      * 处理接口权限
      */
@@ -99,12 +98,12 @@ public class SecurityConfig {
     }
 
 
-    /**
-     * 新版本security获取AuthenticationManager的两种方法
-     * @param authenticationConfiguration
-     * @return
-     * @throws Exception
-     */
+//    /**
+//     * 新版本security获取AuthenticationManager的两种方法
+//     * @param authenticationConfiguration
+//     * @return
+//     * @throws Exception
+//     */
 //    @Bean
 //    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 //        return authenticationConfiguration.getAuthenticationManager();
@@ -115,8 +114,9 @@ public class SecurityConfig {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(customMobileAuthenticationProvider);
-        authenticationManagerBuilder.authenticationProvider(authProvider());
+        authenticationManagerBuilder.authenticationProvider(phoneAuthenticationProvider);
+        authenticationManagerBuilder.authenticationProvider(githubAuthenticationProvider);
+        authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
 
         return authenticationManagerBuilder.build();
     }
@@ -128,7 +128,7 @@ public class SecurityConfig {
      * @return
      */
     @Bean
-    public DaoAuthenticationProvider authProvider() {
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         authenticationProvider.setUserDetailsService(userDetailsService);

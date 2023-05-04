@@ -3,8 +3,12 @@ package com.chensino.core.system.strategy;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.validate.UserLoginDTOValidator;
-import com.chensino.core.api.validate.group.UserNameLogin;
+import com.chensino.core.api.validate.group.GithubLogin;
+import com.chensino.core.api.validate.group.PhoneLogin;
 import com.chensino.core.api.vo.LoginUserVO;
+import com.chensino.core.security.token.GithubAuthenticationToken;
+import com.chensino.core.security.token.OAuthAuthenticationToken;
+import com.chensino.core.security.token.PhoneAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
@@ -14,16 +18,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- * @Description TODO
- * @Date 2023/4/28 上午11:04
+ * @Description
+ * @Date 2023/4/28 上午11:07
  * @Created by chenxk
  */
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class LoginByUsernameStrategy implements LoginStrategy {
+public class LoginByGithubStrategy implements LoginStrategy {
     private final IGlobalCache redisTemplate;
     private final AuthenticationManager authenticationManager;
     @Value("${token.expiration}")
@@ -38,7 +43,7 @@ public class LoginByUsernameStrategy implements LoginStrategy {
      */
     @Override
     public LoginUserVO login(UserLoginDTO userLoginDTO) {
-        validate(userLoginDTOValidator, UserNameLogin.class,userLoginDTO);
-        return  doLogin(new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword()), authenticationManager, redisTemplate,expiration);
+        validate(userLoginDTOValidator, GithubLogin.class,userLoginDTO);
+        return  doLogin(new GithubAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword()), authenticationManager, redisTemplate,expiration);
     }
 }

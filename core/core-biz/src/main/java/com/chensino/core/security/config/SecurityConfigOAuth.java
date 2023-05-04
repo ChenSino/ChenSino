@@ -1,17 +1,14 @@
 package com.chensino.core.security.config;
 
-import com.chensino.core.security.provider.CustomMobileAuthenticationProvider;
-import com.chensino.core.security.provider.CustomOauthAuthenticationProvider;
+import com.chensino.core.security.provider.PhoneAuthenticationProvider;
+import com.chensino.core.security.provider.OAuthAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,10 +24,10 @@ public class SecurityConfigOAuth extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private CustomOauthAuthenticationProvider customOauthAuthenticationProvider;
+    private OAuthAuthenticationProvider OAuthAuthenticationProvider;
 
     @Autowired
-    private CustomMobileAuthenticationProvider customMobileAuthenticationProvider;
+    private PhoneAuthenticationProvider phoneAuthenticationProvider;
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
      *
@@ -62,9 +59,9 @@ public class SecurityConfigOAuth extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(customOauthAuthenticationProvider);
+        authenticationManagerBuilder.authenticationProvider(OAuthAuthenticationProvider);
         authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
-        authenticationManagerBuilder.authenticationProvider(customMobileAuthenticationProvider);
+        authenticationManagerBuilder.authenticationProvider(phoneAuthenticationProvider);
 
         return authenticationManagerBuilder.build();
     }

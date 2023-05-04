@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chensino.core.system.mapper.SysUserThirdMapper">
+
+    <resultMap id="BaseResultMap" type="com.chensino.core.api.entity.SysUserThird">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="project" column="project" jdbcType="VARCHAR"/>
+            <result property="usernameThird" column="username_third" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectByUsername" resultType="com.chensino.core.api.entity.SysUserThird">
+        SELECT * FROM t_user_third where username_third = #{githubUsername}
+    </select>
+
+
+</mapper>

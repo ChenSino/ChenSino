@@ -1,6 +1,7 @@
 package com.chensino.core.system.factory;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.chensino.core.system.strategy.LoginByGithubStrategy;
 import com.chensino.core.system.strategy.LoginByPhoneStrategy;
 import com.chensino.core.system.strategy.LoginByUsernameStrategy;
 import com.chensino.core.system.strategy.LoginStrategy;
@@ -19,7 +20,8 @@ import java.util.function.Supplier;
 public enum LoginTypeEnum {
     //lambada表达式，实际传入的是Supplier类型，重写的get方法，使用idea展开lambda就很明显了
     PHONE(() -> SpringUtil.getBean(LoginByPhoneStrategy.class)),
-    USERNAME(() -> SpringUtil.getBean(LoginByUsernameStrategy.class));
+    USERNAME(() -> SpringUtil.getBean(LoginByUsernameStrategy.class)),
+    GITHUB(() -> SpringUtil.getBean(LoginByGithubStrategy.class));
 
     private final Supplier<LoginStrategy> constructor;
 }

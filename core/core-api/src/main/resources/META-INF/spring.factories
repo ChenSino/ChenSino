@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.chensino.core.api.configuration.CoreApiConfiguration,\
+  com.chensino.core.api.properties.GithubProperties

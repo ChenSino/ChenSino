@@ -1,8 +1,15 @@
 package com.chensino.core.system.service;
 
-import com.chensino.core.api.dto.LoginUserDTO;
+import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.vo.LoginUserVO;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 public interface LoginService {
-    LoginUserVO login(LoginUserDTO loginUserDTO);
+    LoginUserVO login(UserLoginDTO userLoginDTO);
+
+    LoginUserVO githubCallback(String code);
+
+    void githubRedirect(HttpServletResponse response) throws IOException;
 }
