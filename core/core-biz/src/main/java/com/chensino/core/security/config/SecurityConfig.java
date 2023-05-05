@@ -1,5 +1,6 @@
 package com.chensino.core.security.config;
 
+import com.chensino.core.api.properties.SecurityProperties;
 import com.chensino.core.security.entrypoint.CustomAuthenticationEntryPoint;
 import com.chensino.core.security.filter.TokenAuthenticationFilter;
 import com.chensino.core.security.provider.GithubAuthenticationProvider;
@@ -22,6 +23,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * @author chenkun
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,11 +37,14 @@ public class SecurityConfig {
 
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
-    private  final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     private final PhoneAuthenticationProvider phoneAuthenticationProvider;
 
     private final GithubAuthenticationProvider githubAuthenticationProvider;
+
+    private final SecurityProperties securityProperties;
+
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
      *
@@ -61,7 +68,6 @@ public class SecurityConfig {
     }
 
 
-
     /**
      * 处理接口权限
      */
@@ -71,44 +77,25 @@ public class SecurityConfig {
         return http
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .mvcMatchers("/login/**","/login/phone","/management","/management/**")
+                .mvcMatchers(securityProperties.getWhiteList().toArray(new String[securityProperties.getWhiteList().size()]))
                 .permitAll()
                 .anyRequest()//剩下所有的请求
                 .authenticated()  // 所有请求都必须要认证才可以访问
-
                 .and()
                 // 禁用csrf
                 .csrf()
                 .disable()
-                // 启用表单登录
-//                .formLogin()
-//                .permitAll()
-//                .and()
                 // 异常处理
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
 
                 .and()
-//                .authenticationProvider(customMobileAuthenticationProvider)
-//                .authenticationProvider(new DaoAuthenticationProvider())
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //禁止生成session,也不会向客户端返回session
+                //禁止生成session,也不会向客户端返回session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .build();
     }
-
-
-//    /**
-//     * 新版本security获取AuthenticationManager的两种方法
-//     * @param authenticationConfiguration
-//     * @return
-//     * @throws Exception
-//     */
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
@@ -125,6 +112,7 @@ public class SecurityConfig {
     /**
      * 默认AuthenticationProvider,如果创建了自定义AuthenticationProvider，则默认的就不会被注入到AuthenticationManager,
      * 所以如果还想保留默认的，需要手动创建bean,并在AuthenticationManager中注入
+     *
      * @return
      */
     @Bean

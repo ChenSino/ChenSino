@@ -97,3 +97,19 @@ oauth:
     accessTokenUrl: https://github.com/login/oauth/access_token
     userInfoUrl: https://api.github.com/user
     frontendHost: http://chensino-web:3333
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+
+
+security:
+  whiteList:
+    - /login/**
+    - /management/**
+    - /management
+    - /swagger-ui/**
+    - /swagger-resources/**
+    - /webjars/**
+    - /v3/api-docs
