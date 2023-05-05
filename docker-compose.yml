@@ -1,0 +1,76 @@
+# 使用说明 V4.4.0
+# 1. 使用docker-compose  宿主机不需要配置host来发现
+# 2. 无需修改源码，根目录  docker-compose up 即可
+# 3. 静静等待服务启动
+
+version: '3'
+services:
+  chensino-mysql:
+    build:
+      context: ./db
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    container_name: chensino-mysql
+    image: chensino-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./chensino-mysql:/var/lib/mysql
+    command: --lower_case_table_names=1
+    networks:
+      - custom
+
+  chensino-redis:
+    container_name: chensino-redis
+    image: redis:6.2.6
+    restart: always
+    command: redis-server /etc/redis/redis.conf
+    volumes:
+      - ./redis/conf:/etc/redis  #指定外部配置
+      - ./redis/data:/data #指定数据目录，此配置一定要有
+    ports:
+      - "6379:6379"
+    networks:
+      - custom
+
+  chensino-rabbitmq:
+    restart: always
+    container_name: chensino-rabbitmq
+    image: rabbitmq:3-management
+    volumes:
+      - ./rabbitmq/conf:/etc/rabbitmq
+      - ./rabbitmq/data:/var/lib/rabbitmq
+#      - ./rabbitmq/log:/var/log/rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: chensino
+      RABBITMQ_DEFAULT_PASS: 123456
+    networks:
+      - custom
+
+  core-biz:
+    build:
+      context: ./core/core-biz
+    depends_on:
+      - chensino-redis
+      - chensino-mysql
+      - chensino-rabbitmq
+    restart: always
+    container_name: core-biz
+    image: chensino-core-biz
+    ports:
+      - "8888:8888"
+    networks:
+      - custom
+
+networks:
+  custom:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.55.0.0/16
+          gateway: 172.55.0.1

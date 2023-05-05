@@ -22,7 +22,7 @@ spring:
     name: chensino-core
   redis:
     database: 0
-    password: sonoscape
+    password: 123456
     host: chensino-redis
     port: 6379
     timeout: 1000
