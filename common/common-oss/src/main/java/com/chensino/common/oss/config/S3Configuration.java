@@ -2,11 +2,10 @@ package com.chensino.common.oss.config;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.Protocol;
-import com.amazonaws.SDKGlobalConfiguration;
-import com.amazonaws.auth.*;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import lombok.AllArgsConstructor;
@@ -40,12 +39,11 @@ public class S3Configuration {
         AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
                 s3Properties.getEndpoint(), s3Properties.getRegion());
 
-        AmazonS3 amazonS3 = AmazonS3ClientBuilder.standard()
+        return AmazonS3ClientBuilder.standard()
                 .withClientConfiguration(clientConfiguration)
                 .withEndpointConfiguration(endpointConfiguration)
                 .withCredentials(new AWSStaticCredentialsProvider(credentials)).withPathStyleAccessEnabled(true)
                 .build();
-        return amazonS3;
 
     }
 }

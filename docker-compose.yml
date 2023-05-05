@@ -1,9 +1,5 @@
-# 使用说明 V4.4.0
-# 1. 使用docker-compose  宿主机不需要配置host来发现
-# 2. 无需修改源码，根目录  docker-compose up 即可
-# 3. 静静等待服务启动
-
 version: '3'
+
 services:
   chensino-mysql:
     build:
@@ -44,11 +40,29 @@ services:
       - ./rabbitmq/data:/var/lib/rabbitmq
 #      - ./rabbitmq/log:/var/log/rabbitmq
     ports:
-      - "15672:15672"
+      - "15672:15672" #web页面
       - "5672:5672"
     environment:
       RABBITMQ_DEFAULT_USER: chensino
       RABBITMQ_DEFAULT_PASS: 123456
+    networks:
+      - custom
+
+  chensino-minio:
+    restart: always
+    container_name: chensino-minio
+    image: minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001" #web页面
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio/
+    environment:
+      - "MINIO_ACCESS_KEY=admin"
+      - "MINIO_SECRET_KEY=12345678"
+    command: server --console-address ':9001' /data
+    privileged: true
     networks:
       - custom
 

@@ -120,3 +120,6 @@ redis/data/**
 
 ##rabbitMQ
 rabbitmq/data/**
+
+##minio
+minio/
