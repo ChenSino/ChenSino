@@ -13,9 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
@@ -23,7 +20,7 @@ import java.util.List;
 /**
  * @author 204506
  * @version 1.0
- * @createDate 2022-07-28 9:33
+ * @Date 2022-07-28 9:33
  */
 @RestController
 @RequestMapping("user")
@@ -48,10 +45,7 @@ public class UserController {
 
     @ApiOperation(value = "查询列表")
     @GetMapping("list")
-    public ResponseEntity<List<SysUser>> userList() throws InterruptedException {
-        System.out.println("进入list");
-        System.out.println("休眠结束。。。。");
-        System.out.println(printApplicationArgs);
+    public ResponseEntity<List<SysUser>> userList() {
         return ResponseEntity.ok(sysUserService.list());
     }
 
@@ -61,42 +55,8 @@ public class UserController {
         return ResponseEntity.ok("通过webSecurityCustomizer()跳过Security所有过滤器");
     }
 
-    @ApiOperation(value = "Cookie测试")
-    @GetMapping("test-cookie")
-    public ResponseEntity<String> testCookie(HttpServletRequest request,HttpServletResponse response) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies !=null && cookies.length>0) {
-            for (Cookie cookie:cookies ){
-                System.out.println(cookie.getName());
-                System.out.println(cookie.getValue());
-                System.out.println(cookie.getDomain());
-                System.out.println(cookie.getPath());
-                System.out.println(cookie.getMaxAge());
-                System.out.println(cookie.getSecure());
-                System.out.println(cookie.getVersion());
-                System.out.println("------------------------");
-            }
-        }
-        Cookie cookie1 = new Cookie("myCookie", "1234");
-        cookie1.setDomain("aaa.com");
-        cookie1.setPath("/");
-        response.addCookie(cookie1);
-
-        Cookie cookie2 = new Cookie("myCookie2", "456789");
-        cookie2.setDomain("bbbb.aaaa.com");
-        cookie2.setPath("/somepath");
-        response.addCookie(cookie2);
-
-
-        return ResponseEntity.ok("通过webSecurityCustomizer()跳过Security所有过滤器");
-    }
-
     @GetMapping("getSession")
-    public String getSession(HttpSession session) throws InterruptedException {
-        for (int i = 0; i < 20; i++) {
-            Thread.sleep(1000);
-            System.out.println(session.getId());
-        }
+    public String getSession(HttpSession session) {
         return session.toString();
     }
 
@@ -111,7 +71,6 @@ public class UserController {
     @SysLog("添加用户")
     @PostMapping
     public ResponseEntity<Object> add(@Valid @RequestBody SysUser user) {
-        System.out.println(user);
         return ResponseEntity.ok(user);
     }
 

@@ -19,7 +19,7 @@ import java.io.IOException;
  * 另外，security默认用的Http403ForbiddenEntryPoint
  * @author chenkun
  * @Description
- * @date 2022/12/6 下午10:25
+ * @Date 2022/12/6 下午10:25
  */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {

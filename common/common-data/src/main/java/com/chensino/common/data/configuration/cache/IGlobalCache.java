@@ -10,7 +10,7 @@ import java.util.Set;
  * 系统全局Cache接口，具体缓存方式需要实现该接口
  *
  * @author YuXD
- * @date 2021-01-05 10:38
+ * @Date 2021-01-05 10:38
  * @since v1.0
  */
 public interface IGlobalCache {

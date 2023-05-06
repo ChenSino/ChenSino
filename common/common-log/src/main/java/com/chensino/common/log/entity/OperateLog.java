@@ -1,8 +1,8 @@
 package com.chensino.common.log.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  * @Date 2022/8/17
  */
 @Data
+@TableName("t_operate_log")
 public class OperateLog {
     /**
      * 编号
@@ -60,6 +61,8 @@ public class OperateLog {
      */
     private String requestUri;
 
+    private String className;
+
     /**
      * 操作方式
      */
@@ -88,5 +91,5 @@ public class OperateLog {
     /**
      * 删除标记
      */
-    private String delFlag;
+    private boolean delFlag;
 }

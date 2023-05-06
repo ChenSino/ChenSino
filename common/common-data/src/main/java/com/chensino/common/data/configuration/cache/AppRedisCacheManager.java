@@ -4,16 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @description: 移动端Redis缓存实现类
  * @author: YuXD
- * @createDate : 2021-01-05 10:40
+ * @Date : 2021-01-05 10:40
  **/
 @Getter
 @AllArgsConstructor
@@ -193,7 +190,7 @@ public final class AppRedisCacheManager implements IGlobalCache {
             return redisTemplate.opsForSet().members(key);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new HashSet<>();
         }
     }
 
@@ -244,8 +241,7 @@ public final class AppRedisCacheManager implements IGlobalCache {
     @Override
     public long setRemove(String key, Object... values) {
         try {
-            Long count = redisTemplate.opsForSet().remove(key, values);
-            return count;
+            return redisTemplate.opsForSet().remove(key, values);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -258,7 +254,7 @@ public final class AppRedisCacheManager implements IGlobalCache {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -397,8 +393,7 @@ public final class AppRedisCacheManager implements IGlobalCache {
     @Override
     public long lRemove(String key, long count, Object value) {
         try {
-            Long remove = redisTemplate.opsForList().remove(key, count, value);
-            return remove;
+            return redisTemplate.opsForList().remove(key, count, value);
         } catch (Exception e) {
             e.printStackTrace();
             return 0;

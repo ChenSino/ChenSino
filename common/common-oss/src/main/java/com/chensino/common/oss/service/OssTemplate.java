@@ -210,16 +210,17 @@ public class OssTemplate {
      * "http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObject">AWS API
      * Documentation</a>
      */
-    public void removeObject(String bucketName, String objectName) throws Exception {
+    public void removeObject(String bucketName, String objectName) {
         amazonS3.deleteObject(bucketName, objectName);
     }
 
-	/**
-	 * 查看某个桶下的文件
-	 * @param bucketName
-	 * @return
-	 */
+    /**
+     * 查看某个桶下的文件
+     *
+     * @param bucketName
+     * @return
+     */
     public ObjectListing listObjects(String bucketName) {
-       return amazonS3.listObjects(bucketName);
+        return amazonS3.listObjects(bucketName);
     }
 }

@@ -2,7 +2,7 @@ package com.chensino.common.core.exception;
 
 /**
  * @author chenkun
- * @createDate 2023/5/6 下午3:02
+ * @Date 2023/5/6 下午3:02
  */
 public class BusinessException extends RuntimeException{
     public BusinessException() {

@@ -1,28 +1,18 @@
 package com.chensino.common.log;
 
-import com.chensino.common.log.aspect.OperateLogAspect;
-import com.chensino.common.log.event.OperateLogListener;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * @author chenkun
  * @Description log自动配置类
- * @date 2022/7/28 下午9:54
+ * @Date 2022/7/28 下午9:54
  */
 @Configuration
 @ConditionalOnWebApplication
+@ComponentScan("com.chensino.common.log")
+@MapperScan("com.chensino.common.log.mapper")
 public class LogAutoConfiguration {
-
-    @Bean
-    public OperateLogAspect getOperateLogAspect(ApplicationEventPublisher publisher){
-        return new OperateLogAspect(publisher);
-    }
-
-    @Bean
-    public OperateLogListener operateLogListener(){
-        return new OperateLogListener();
-    }
 }

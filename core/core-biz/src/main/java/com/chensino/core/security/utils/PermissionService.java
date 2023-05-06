@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author ccs
- * @date 2018/6/22 接口权限判断工具
+ * @Date 2018/6/22 接口权限判断工具
  */
 @Slf4j
 @Component("pms")

@@ -2,6 +2,7 @@ package com.chensino.core.system.controller;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.chensino.common.core.util.ResponseEntity;
+import com.chensino.common.log.annotation.SysLog;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.properties.GithubProperties;
 import com.chensino.core.api.vo.LoginUserVO;
@@ -35,6 +36,7 @@ public class LoginController {
     @PostMapping
     @ResponseBody
     @ApiOperation( "多种方式登录")
+    @SysLog("登录接口")
     public ResponseEntity<LoginUserVO> login(@RequestBody @Validated @ApiParam UserLoginDTO userLoginDTO) {
         return ResponseEntity.ok(loginService.login(userLoginDTO));
     }

@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author chenkun
- * @createDate 2023/5/6 下午2:37
+ * @Date 2023/5/6 下午2:37
  */
 public interface MinioService {
 

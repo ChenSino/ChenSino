@@ -5,7 +5,7 @@ package com.chensino.common.core.constant;
  *
  * @author 204506
  * @version 1.0
- * @date 2022-07-28 9:25
+ * @Date 2022-07-28 9:25
  */
 public interface CommonConstant {
     /**

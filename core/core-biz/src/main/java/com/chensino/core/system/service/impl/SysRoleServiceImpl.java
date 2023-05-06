@@ -7,13 +7,12 @@ import com.chensino.core.system.service.SysRoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
 
 /**
 * @author chenkun
 * @description 针对表【t_role(角色表)】的数据库操作Service实现
-* @createDate 2022-09-05 14:19:12
+* @Date 2022-09-05 14:19:12
 */
 @Service
 @AllArgsConstructor

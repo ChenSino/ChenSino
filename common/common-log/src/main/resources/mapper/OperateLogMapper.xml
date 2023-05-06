@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chensino.common.log.mapper.OperateLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.chensino.common.log.entity.OperateLog">
+        <result property="id" column="id" jdbcType="CHAR"/>
+        <result property="type" column="type" jdbcType="CHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <!--通过角色查询菜单信息-->
+    <select id="listMenusByRoleId" resultMap="BaseResultMap">
+        SELECT * from t_operate_log where id = 1
+    </select>
+
+
+</mapper>

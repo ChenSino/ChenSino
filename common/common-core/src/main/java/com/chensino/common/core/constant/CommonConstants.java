@@ -21,7 +21,7 @@ package com.chensino.common.core.constant;
 
 /**
  * @author ccs
- * @date 2017/10/29
+ * @Date 2017/10/29
  */
 public interface CommonConstants {
 

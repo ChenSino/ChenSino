@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @Description 接口放行白名单
  * @author chenkun
- * @createDate 2023/5/6 下午4:00
+ * @Date 2023/5/6 下午4:00
  */
 @Configuration
 public class PermitAllRequestMatcher implements RequestMatcher {

@@ -2,7 +2,7 @@ package com.chensino.common.core.exception;
 
 /**
  * @author chenkun
- * @createDate 2023/5/6 下午3:01
+ * @Date 2023/5/6 下午3:01
  */
 public class BadParameterException extends RuntimeException{
     public BadParameterException() {

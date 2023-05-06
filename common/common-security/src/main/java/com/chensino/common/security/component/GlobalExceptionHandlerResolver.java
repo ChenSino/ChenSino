@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author 204506
  * @version 1.0
- * @createDate  2022-07-28 15:50
+ * @Date  2022-07-28 15:50
  */
 @RestControllerAdvice
 @Slf4j
@@ -69,7 +69,7 @@ public class GlobalExceptionHandlerResolver {
      */
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ResponseEntity handleAccessDeniedException(AccessDeniedException e) {
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException e) {
         String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
                 e.getMessage());
         log.error("拒绝授权异常信息 ex={}", msg, e);

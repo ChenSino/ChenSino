@@ -20,7 +20,7 @@
 package com.chensino.common.core.constant;
 
 /**
- * @date 2017-12-18
+ * @Date 2017-12-18
  */
 public interface SecurityConstants {
 
