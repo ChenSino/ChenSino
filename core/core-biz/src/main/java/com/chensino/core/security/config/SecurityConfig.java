@@ -1,6 +1,6 @@
 package com.chensino.core.security.config;
 
-import com.chensino.core.api.properties.SecurityProperties;
+import com.chensino.common.security.component.PermitAllRequestMatcher;
 import com.chensino.core.security.entrypoint.CustomAuthenticationEntryPoint;
 import com.chensino.core.security.filter.TokenAuthenticationFilter;
 import com.chensino.core.security.provider.GithubAuthenticationProvider;
@@ -43,7 +43,7 @@ public class SecurityConfig {
 
     private final GithubAuthenticationProvider githubAuthenticationProvider;
 
-    private final SecurityProperties securityProperties;
+    private final PermitAllRequestMatcher permitAllRequestMatcher;
 
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
@@ -77,7 +77,8 @@ public class SecurityConfig {
         return http
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .mvcMatchers(securityProperties.getWhiteList().toArray(new String[securityProperties.getWhiteList().size()]))
+                //自定义url匹配规则
+                .requestMatchers(permitAllRequestMatcher)
                 .permitAll()
                 .anyRequest()//剩下所有的请求
                 .authenticated()  // 所有请求都必须要认证才可以访问

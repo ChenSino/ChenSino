@@ -1,4 +1,9 @@
-package com.chensino.core.api.properties;
+package com.chensino.common.security.component.properties;
+
+/**
+ * @author chenkun
+ * @createDate 2023/5/6 下午4:23
+ */
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

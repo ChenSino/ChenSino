@@ -3,6 +3,7 @@ package com.chensino.core.system.controller;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.chensino.common.core.util.ResponseEntity;
+import com.chensino.common.security.component.annotation.OpenApi;
 import com.chensino.core.system.service.MinioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +42,7 @@ public class MinioController {
     }
 
     @GetMapping("/files/{bucketName}")
+    @OpenApi
     public ResponseEntity<ObjectListing> listFilesByBucket(@PathVariable String bucketName) {
         return ResponseEntity.ok(minioService.listObjects(bucketName));
     }
