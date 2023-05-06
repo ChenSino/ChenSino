@@ -73,7 +73,7 @@ services:
       - chensino-redis
       - chensino-mysql
       - chensino-rabbitmq
-    restart: always
+    restart: no
     container_name: core-biz
     image: chensino-core-biz
     ports:

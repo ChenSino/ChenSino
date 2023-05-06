@@ -81,7 +81,7 @@ public interface LoginStrategy {
     default void validate(UserLoginDTOValidator userLoginDTOValidator, Class<?> clazz, UserLoginDTO userLoginDTO) {
         BindException errors = new BindException(userLoginDTO, "userLoginDTO");
         userLoginDTOValidator.validate(userLoginDTO, errors, clazz);
-        // 判断校验是否成功
+        // 判断校验是否成功d
         if (errors.hasErrors()) {
             throw new ValidationException(errors);
         }
