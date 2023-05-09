@@ -7,16 +7,14 @@ import com.chensino.core.api.validate.group.UserNameLogin;
 import com.chensino.core.api.vo.LoginUserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Description TODO
+ * @Description 用户名登录
  * @Date 2023/4/28 上午11:04
  * @Created by chenxk
  */
@@ -30,6 +28,7 @@ public class LoginByUsernameStrategy implements LoginStrategy {
     private Long expiration;
 
     private final UserLoginDTOValidator userLoginDTOValidator;
+
     /**
      * 手机号验证码登录
      *
@@ -38,7 +37,7 @@ public class LoginByUsernameStrategy implements LoginStrategy {
      */
     @Override
     public LoginUserVO login(UserLoginDTO userLoginDTO) {
-        validate(userLoginDTOValidator, UserNameLogin.class,userLoginDTO);
-        return  doLogin(new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword()), authenticationManager, redisTemplate,expiration);
+        validate(userLoginDTOValidator, UserNameLogin.class, userLoginDTO);
+        return doLogin(new UsernamePasswordAuthenticationToken(userLoginDTO.getUsername(), userLoginDTO.getPassword()), authenticationManager, redisTemplate, expiration);
     }
 }

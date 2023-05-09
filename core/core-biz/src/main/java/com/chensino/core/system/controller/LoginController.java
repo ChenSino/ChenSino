@@ -7,16 +7,15 @@ import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.properties.GithubProperties;
 import com.chensino.core.api.vo.LoginUserVO;
 import com.chensino.core.system.service.LoginService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -27,7 +26,7 @@ import java.util.Base64;
 @Controller
 @RequestMapping("login")
 @Data
-@Api(value = "登录",tags = {"登录接口"})
+@Tag(name = "系统用户接口", description = "系统用户接口")
 public class LoginController {
 
     private final LoginService loginService;
@@ -35,9 +34,9 @@ public class LoginController {
 
     @PostMapping
     @ResponseBody
-    @ApiOperation( "多种方式登录")
     @SysLog("登录接口")
-    public ResponseEntity<LoginUserVO> login(@RequestBody @Validated @ApiParam UserLoginDTO userLoginDTO) {
+    @Operation(summary = "登录接口", description = "登录接口")
+    public ResponseEntity<LoginUserVO> login(@RequestBody @Validated  UserLoginDTO userLoginDTO) {
         return ResponseEntity.ok(loginService.login(userLoginDTO));
     }
 
@@ -47,13 +46,13 @@ public class LoginController {
      * @throws IOException
      */
     @GetMapping("/oauth2/github")
-    @ApiOperation("github授权页面")
+//    @ApiOperation("github授权页面")
     public void wechatCallback(HttpServletResponse response) throws IOException {
         loginService.githubRedirect(response);
     }
 
     @GetMapping("/oauth2/code/github")
-    @ApiOperation("github登录成功的回调")
+//    @ApiOperation("github登录成功的回调")
     public ModelAndView githubCallback(@RequestParam  String code) {
         ModelAndView modelAndView = new ModelAndView("github");
         LoginUserVO loginUserVO = loginService.githubCallback(code);

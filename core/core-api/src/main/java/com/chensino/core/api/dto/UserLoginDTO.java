@@ -1,7 +1,6 @@
 package com.chensino.core.api.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @Created by chenxk
  */
 @Data
-@ApiModel
+//@ApiModel
 public class UserLoginDTO {
 
     /**
@@ -20,7 +19,7 @@ public class UserLoginDTO {
      */
     //--------------------@Controller层校验------------------
     @NotBlank(message = "登录类型不能为空")
-    @ApiModelProperty("登录类型")
+//    @ApiModelProperty("登录类型")
     private String loginType;
 
     //---------------------自定义validator校验----------------

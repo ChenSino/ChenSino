@@ -13,13 +13,13 @@ import com.chensino.core.system.factory.LoginTypeEnum;
 import com.chensino.core.system.mapper.SysUserThirdMapper;
 import com.chensino.core.system.service.LoginService;
 import com.chensino.core.system.service.SysUserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

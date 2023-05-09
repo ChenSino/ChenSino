@@ -18,18 +18,19 @@
     </organization>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>2.7.5</spring-boot.version>
-        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <spring-boot.version>3.0.6</spring-boot.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <p6spy.version>3.9.1</p6spy.version>
         <jdbc.version>8.0.30</jdbc.version>
         <springfox.boot.starter.version>3.0.0</springfox.boot.starter.version>
-        <hutool.version>5.8.5</hutool.version>
-        <aws.version>1.11.543</aws.version>
+        <hutool.version>5.8.18</hutool.version>
+        <aws.version>1.12.464</aws.version>
         <fastjson.version>2.0.16</fastjson.version>
+        <spring.security.oauth2.version>2.5.2.RELEASE</spring.security.oauth2.version>
     </properties>
 
     <!--子模块公共依赖-->
@@ -118,6 +119,12 @@
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <!--oauth2-->
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${spring.security.oauth2.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

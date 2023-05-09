@@ -8,12 +8,11 @@ import com.chensino.core.api.vo.LoginUserVO;
 import com.chensino.core.security.token.PhoneAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * @Description
@@ -28,7 +27,6 @@ public class LoginByPhoneStrategy implements LoginStrategy {
     private final AuthenticationManager authenticationManager;
     @Value("${token.expiration}")
     private Long expiration;
-
     private final UserLoginDTOValidator userLoginDTOValidator;
     /**
      * 手机号验证码登录
