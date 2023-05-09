@@ -66,20 +66,20 @@ services:
     networks:
       - custom
 
-  core-biz:
-    build:
-      context: ./core/core-biz
-    depends_on:
-      - chensino-redis
-      - chensino-mysql
-      - chensino-rabbitmq
-    restart: no
-    container_name: core-biz
-    image: chensino-core-biz
-    ports:
-      - "8888:8888"
-    networks:
-      - custom
+#  core-biz:
+#    build:
+#      context: ./core/core-biz
+#    depends_on:
+#      - chensino-redis
+#      - chensino-mysql
+#      - chensino-rabbitmq
+#    restart: no
+#    container_name: core-biz
+#    image: chensino-core-biz
+#    ports:
+#      - "8888:8888"
+#    networks:
+#      - custom
 
 networks:
   custom:

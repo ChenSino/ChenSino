@@ -4,21 +4,13 @@ import com.chensino.common.data.configuration.cache.IGlobalCache;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.validate.UserLoginDTOValidator;
 import com.chensino.core.api.validate.group.GithubLogin;
-import com.chensino.core.api.validate.group.PhoneLogin;
 import com.chensino.core.api.vo.LoginUserVO;
 import com.chensino.core.security.token.GithubAuthenticationToken;
-import com.chensino.core.security.token.OAuthAuthenticationToken;
-import com.chensino.core.security.token.PhoneAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @Description
