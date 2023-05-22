@@ -56,12 +56,30 @@
             <level>ERROR</level>
         </filter>
     </appender>
-
+    <!-- Log file trace output -->
+    <appender name="trace" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/trace.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/%d{yyyy-MM, aux}/trace.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>debug</level>
+        </filter>
+    </appender>
+<!--    -->
     <logger name="com.chensino">
         <appender-ref ref="error"/>
     </logger>
     <logger name="com.chensino">
         <appender-ref ref="info"/>
+    </logger>
+    <logger name="org.springframework.security" level="trace" additivity="false">
+        <appender-ref ref="trace"/>
     </logger>
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">

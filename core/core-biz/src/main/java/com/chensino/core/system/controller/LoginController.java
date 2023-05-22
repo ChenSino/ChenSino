@@ -46,13 +46,13 @@ public class LoginController {
      * @throws IOException
      */
     @GetMapping("/oauth2/github")
-//    @ApiOperation("github授权页面")
-    public void wechatCallback(HttpServletResponse response) throws IOException {
+    @Operation(summary = "github授权页面", description = "github授权页面")
+    public void githubLogin(HttpServletResponse response) throws IOException {
         loginService.githubRedirect(response);
     }
 
     @GetMapping("/oauth2/code/github")
-//    @ApiOperation("github登录成功的回调")
+    @Operation(summary = "github登录成功的回调", description = "github登录成功的回调")
     public ModelAndView githubCallback(@RequestParam  String code) {
         ModelAndView modelAndView = new ModelAndView("github");
         LoginUserVO loginUserVO = loginService.githubCallback(code);

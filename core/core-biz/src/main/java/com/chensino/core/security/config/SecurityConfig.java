@@ -45,6 +45,7 @@ public class SecurityConfig {
 
     private final PermitAllRequestMatcher permitAllRequestMatcher;
 
+
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
      *
@@ -123,6 +124,18 @@ public class SecurityConfig {
         authenticationProvider.setUserDetailsService(userDetailsService);
         return authenticationProvider;
     }
+
+    /**
+     * 自定义防火墙另一种方式，{@link com.chensino.core.security.firewall.CustomFirewall}
+     * 在原来的防火墙基础上修改
+     * @return
+     */
+//    @Bean
+//    public HttpFirewall strictHttpFirewall() {
+//        StrictHttpFirewall strictHttpFirewall = new StrictHttpFirewall();
+//        strictHttpFirewall.setAllowedHttpMethods(Arrays.asList("post"));
+//        return strictHttpFirewall;
+//    }
 
 
 }
