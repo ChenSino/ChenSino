@@ -8,6 +8,7 @@
     <modules>
         <module>common</module>
         <module>core</module>
+        <module>oauth2-server</module>
     </modules>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
