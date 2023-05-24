@@ -1,7 +1,9 @@
 package com.chensino.common.log;
 
+import com.chensino.common.log.configuration.CustomLogProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,5 +16,6 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnWebApplication
 @ComponentScan("com.chensino.common.log")
 @MapperScan("com.chensino.common.log.mapper")
+@EnableConfigurationProperties({CustomLogProperties.class})
 public class LogAutoConfiguration {
 }

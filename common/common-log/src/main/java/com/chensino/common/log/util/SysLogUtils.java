@@ -4,6 +4,7 @@ import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.HttpUtil;
 import com.chensino.common.log.entity.OperateLog;
+import com.chensino.common.log.spi.ExtendLogField;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
@@ -19,6 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.ServiceLoader;
 
 /**
  * @author chenkun
@@ -31,7 +33,10 @@ public class SysLogUtils {
         HttpServletRequest request = ((ServletRequestAttributes) Objects
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         OperateLog sysLog = new OperateLog();
-        sysLog.setCreateBy(Objects.requireNonNull(getUsername()));
+
+        ServiceLoader<ExtendLogField> serviceLoader = ServiceLoader.load(ExtendLogField.class);
+        var otherProperties = serviceLoader.findFirst().get();
+        sysLog.setCreateBy(otherProperties.currentUser());
         sysLog.setType(LogTypeEnum.NORMAL.getType());
         //springboot3中使用的HttpServletRequest包名改了不再是javax.servlet.http,改成了jakarta.servlet.http
         sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
