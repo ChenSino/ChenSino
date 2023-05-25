@@ -38,18 +38,9 @@
             <groupId>com.chensino</groupId>
             <artifactId>common-data</artifactId>
         </dependency>
-        <!--JDBC相关-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
         <dependency>
             <groupId>p6spy</groupId>
             <artifactId>p6spy</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <dependency>
             <groupId>com.chensino</groupId>

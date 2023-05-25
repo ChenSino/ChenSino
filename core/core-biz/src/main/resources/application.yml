@@ -48,8 +48,9 @@ spring:
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password: 123456
+    #username ,password明文root
+    username: ENC(TVtUQzdhxKwamJ/5Cw3liblNr1L9OHgeThklrxDAFmOqJfEmRhY+qV6HmXIuGV4P)
+    password: ENC(IsdmdvHERjJqIu8GDK5fKPk759VILisAIsycU0weKBCAMjPyM3Y01KeeGlHcX9SP)
     url: jdbc:p6spy:mysql://${MYSQL_HOST:chensino-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:chensino}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
   mvc:
     throw-exception-if-no-handler-found: true
@@ -143,3 +144,9 @@ chensino:
   common:
     log:
       logTableName: t_operate_log
+jasypt:
+  encryptor:
+    # 加密的盐值，为了安全，该配置可以放在启动参数或者命令行参数中
+    password: fa7bd4edd42448aea8c9484fbce6e8cd
+    # 加密所采用的算法
+    algorithm: PBEWITHHMACSHA512ANDAES_256

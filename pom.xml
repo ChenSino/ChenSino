@@ -8,7 +8,6 @@
     <modules>
         <module>common</module>
         <module>core</module>
-        <module>oauth2-server</module>
     </modules>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
@@ -32,6 +31,7 @@
         <aws.version>1.12.464</aws.version>
         <fastjson.version>2.0.16</fastjson.version>
         <spring.security.oauth2.version>2.5.2.RELEASE</spring.security.oauth2.version>
+        <jasypt.version>3.0.5</jasypt.version>
     </properties>
 
     <!--子模块公共依赖-->
@@ -126,6 +126,11 @@
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${spring.security.oauth2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
