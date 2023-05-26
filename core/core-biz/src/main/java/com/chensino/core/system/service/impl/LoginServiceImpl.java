@@ -1,9 +1,11 @@
 package com.chensino.core.system.service.impl;
 
+import cn.hutool.core.text.StrPool;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
+import com.chensino.common.data.configuration.constant.CacheConst;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.entity.SysUserThird;
 import com.chensino.core.api.properties.GithubProperties;
@@ -28,6 +30,7 @@ import java.util.Map;
 @Data
 @Slf4j
 public class LoginServiceImpl implements LoginService {
+
     private final IGlobalCache redisTemplate;
 
     private final AuthenticationManager authenticationManager;
@@ -56,7 +59,7 @@ public class LoginServiceImpl implements LoginService {
         String response = HttpUtil.post(githubProperties.getAccessTokenUrl(), params);
         String token = response.split("&")[0].split("=")[1];
         // 拿到github token，根据token请求用户信息
-        String githubUser= HttpRequest.get(githubProperties.getUserInfoUrl()).header("Authorization", "Bearer " + token).execute().body();
+        String githubUser = HttpRequest.get(githubProperties.getUserInfoUrl()).header("Authorization", "Bearer " + token).execute().body();
         //根据github用户查询对应本地用户
         String githubUsername = JSONObject.parse(githubUser).get("name").toString();
         SysUserThird sysUserThird = sysUserThirdMapper.selectByUsername(githubUsername);
@@ -64,7 +67,7 @@ public class LoginServiceImpl implements LoginService {
         UserLoginDTO userLoginDTO = new UserLoginDTO();
         userLoginDTO.setLoginType("GITHUB");
         userLoginDTO.setUsername(sysUserThird.getUsername());
-        return  this.login(userLoginDTO);
+        return this.login(userLoginDTO);
     }
 
     @Override
@@ -76,5 +79,10 @@ public class LoginServiceImpl implements LoginService {
                 .append("&redirect_uri=")
                 .append(githubProperties.getRedirectUri());
         response.sendRedirect(url.toString());
+    }
+
+    @Override
+    public void logout(String bearerToken) {
+        redisTemplate.del(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + bearerToken.split(" ")[1]);
     }
 }

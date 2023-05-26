@@ -96,6 +96,9 @@ public class SecurityConfig {
                 //禁止生成session,也不会向客户端返回session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .logout()
+                .logoutUrl("logout")
+                .and()
                 .build();
     }
 

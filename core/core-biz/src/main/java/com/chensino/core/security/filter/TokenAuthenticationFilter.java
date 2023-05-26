@@ -9,7 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -32,12 +32,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //1. 解析token
-        String token = request.getHeader("X-token");
+        String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         //2. token不存在直接放行，后续的FilterInterceptor会校验权限，没有权限依然无法访问接口
-        if (!StringUtils.hasText(token)) {
+        if (!StringUtils.hasText(bearerToken)) {
             filterChain.doFilter(request, response);
             return;
         }
+        String token = bearerToken.split(" ")[1];
         //3. 根据token查询用户信息，目标是设置SecurityContext
         CustomSecurityUser customSecurityUser = redisTemplate.get(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + token);
         if (Objects.nonNull(customSecurityUser)) {

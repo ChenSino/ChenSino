@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,6 @@ import java.util.Base64;
  * @author chenkun
  */
 @Controller
-@RequestMapping("login")
 @Data
 @Tag(name = "系统用户接口", description = "系统用户接口")
 public class LoginController {
@@ -32,7 +32,7 @@ public class LoginController {
     private final LoginService loginService;
     private final GithubProperties githubProperties;
 
-    @PostMapping
+    @PostMapping("login")
     @ResponseBody
     @SysLog("登录接口")
     @Operation(summary = "登录接口", description = "登录接口")
@@ -45,13 +45,13 @@ public class LoginController {
      * @param response
      * @throws IOException
      */
-    @GetMapping("/oauth2/github")
+    @GetMapping("login/oauth2/github")
     @Operation(summary = "github授权页面", description = "github授权页面")
     public void githubLogin(HttpServletResponse response) throws IOException {
         loginService.githubRedirect(response);
     }
 
-    @GetMapping("/oauth2/code/github")
+    @GetMapping("login/oauth2/code/github")
     @Operation(summary = "github登录成功的回调", description = "github登录成功的回调")
     public ModelAndView githubCallback(@RequestParam  String code) {
         ModelAndView modelAndView = new ModelAndView("github");
@@ -62,4 +62,21 @@ public class LoginController {
         modelAndView.addObject("domain", githubProperties.getFrontendHost());
         return modelAndView;
     }
+
+    /**
+     *注意默认情况下http://host:ip/logout是security的一个端点，会在security过滤器中处理
+        如果想让http://localhost:8888/logout进入自己的controller,需要在security设置自定义logoutUrl
+        @see  {@link com.chensino.core.security.config.SecurityConfig}
+     * @param bearerToken
+     * @return
+     */
+    @GetMapping("logout")
+    @ResponseBody
+    @SysLog("登出")
+    @Operation(summary = "登出接口", description = "登出接口")
+    public ResponseEntity<Void> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String bearerToken) {
+        loginService.logout(bearerToken);
+        return ResponseEntity.ok();
+    }
+
 }

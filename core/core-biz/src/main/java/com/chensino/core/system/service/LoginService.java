@@ -12,4 +12,6 @@ public interface LoginService {
     LoginUserVO githubCallback(String code);
 
     void githubRedirect(HttpServletResponse response) throws IOException;
+
+    void logout(String bearerToken);
 }

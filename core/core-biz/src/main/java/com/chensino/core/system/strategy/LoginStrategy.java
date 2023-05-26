@@ -49,8 +49,7 @@ public interface LoginStrategy {
      */
     default LoginUserVO doLogin(Authentication authentication, AuthenticationManager authenticationManager, IGlobalCache redisTemplate, long expiration) {
         //1. 使用AuthenticationManager认证用户
-        Authentication authenticate;
-        authenticate = authenticationManager.authenticate(authentication);
+        Authentication authenticate = authenticationManager.authenticate(authentication);
         //3. 认证通过，生成token,key->token,value->username
         String token = UUID.fastUUID().toString(true);
         CustomSecurityUser customSecurityUser = (CustomSecurityUser) authenticate.getPrincipal();
