@@ -3,8 +3,6 @@ package com.chensino.common.log.interceptor;
 import com.chensino.common.log.configuration.CustomLogProperties;
 import lombok.Data;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
@@ -36,10 +34,9 @@ public class CustomTableNamePlugin implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
         MetaObject metaObject = MetaObject.forObject(statementHandler, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
-        String sql = (String) metaObject.getValue("delegate.boundSql.sql");
-        sql = sql.replace(DEFAULT_LOG_TABLE_NAME, customLogProperties.getLogTableName());
-        metaObject.setValue("delegate.boundSql.sql",sql);
-        System.out.println(metaObject.getValue("delegate.boundSql.sql"));
+        String originSql = (String) metaObject.getValue("delegate.boundSql.sql");
+        String newSql = originSql.replace(DEFAULT_LOG_TABLE_NAME, customLogProperties.getLogTableName());
+        metaObject.setValue("delegate.boundSql.sql",newSql);
         return invocation.proceed();
     }
 }

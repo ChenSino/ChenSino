@@ -7,7 +7,7 @@ services:
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root
-    restart: always
+    restart: no
     container_name: chensino-mysql
     image: chensino-mysql
     ports:
@@ -21,7 +21,7 @@ services:
   chensino-redis:
     container_name: chensino-redis
     image: redis:6.2.6
-    restart: always
+    restart: no
     command: redis-server /etc/redis/redis.conf
     volumes:
       - ./redis/conf:/etc/redis  #指定外部配置
@@ -32,7 +32,7 @@ services:
       - custom
 
   chensino-rabbitmq:
-    restart: always
+    restart: no
     container_name: chensino-rabbitmq
     image: rabbitmq:3-management
     volumes:
@@ -49,7 +49,7 @@ services:
       - custom
 
   chensino-minio:
-    restart: always
+    restart: no
     container_name: chensino-minio
     image: minio/minio
     ports:

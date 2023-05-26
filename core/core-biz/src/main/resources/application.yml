@@ -116,8 +116,8 @@ minio:
 
 oauth:
   github:
-    clientId: 18730ff09031fd6fcc754
-    secret: 1db14a3ea61e4502e09959d71489dc0d2fa10d47e
+    clientId: 8730ff09031fd6fcc754
+    secret: 10e115b119ca03334f5da1f0a39b31048f0016c5
     redirectUri: http://chensino:8888/login/oauth2/code/github
     authorizeUrl: https://github.com/login/oauth/authorize
     accessTokenUrl: https://github.com/login/oauth/access_token

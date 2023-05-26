@@ -1,12 +1,12 @@
 package com.chensino.common.log.aspect;
 
 import cn.hutool.core.text.StrPool;
-import com.alibaba.fastjson2.JSONObject;
 import com.chensino.common.log.annotation.SysLog;
 import com.chensino.common.log.entity.OperateLog;
 import com.chensino.common.log.event.OperateLogEvent;
 import com.chensino.common.log.util.LogTypeEnum;
 import com.chensino.common.log.util.SysLogUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +31,8 @@ public class OperateLogAspect {
 
     private final ApplicationEventPublisher publisher;
 
+    private final ObjectMapper objectMapper;
+
     @Around("@annotation(sysLog)")
     @SneakyThrows
     public Object around(ProceedingJoinPoint point, SysLog sysLog) {
@@ -47,7 +49,7 @@ public class OperateLogAspect {
                 params.append("参数");
                 params.append(i + 1);
                 params.append(StrPool.COLON);
-                params.append(JSONObject.toJSONString(args[i]));
+                params.append(objectMapper.writeValueAsString(args[i]));
                 params.append(StrPool.LF);
             }
         }
