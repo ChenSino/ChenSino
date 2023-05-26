@@ -2,9 +2,8 @@ package com.chensino.core.system.strategy;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.UUID;
-import cn.hutool.core.text.StrPool;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
-import com.chensino.common.data.configuration.constant.CacheConst;
+import com.chensino.common.security.component.properties.SecurityProperties;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.entity.CustomSecurityUser;
 import com.chensino.core.api.validate.UserLoginDTOValidator;
@@ -19,7 +18,6 @@ import org.springframework.validation.BindException;
 
 import javax.validation.ValidationException;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 /**
  * @author chenkun
@@ -44,27 +42,27 @@ public interface LoginStrategy {
      * @param authentication
      * @param authenticationManager
      * @param redisTemplate
-     * @param expiration
+     * @param securityProperties
      * @return
      */
-    default LoginUserVO doLogin(Authentication authentication, AuthenticationManager authenticationManager, IGlobalCache redisTemplate, long expiration) {
+    default LoginUserVO doLogin(Authentication authentication, AuthenticationManager authenticationManager, IGlobalCache redisTemplate, SecurityProperties securityProperties) {
         //1. 使用AuthenticationManager认证用户
         Authentication authenticate = authenticationManager.authenticate(authentication);
         //3. 认证通过，生成token,key->token,value->username
         String token = UUID.fastUUID().toString(true);
         CustomSecurityUser customSecurityUser = (CustomSecurityUser) authenticate.getPrincipal();
         //4. token存入redis
-        redisTemplate.set(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + token, customSecurityUser, expiration);
+        redisTemplate.set(securityProperties.getToken().getAccessTokenPrefix() + token, customSecurityUser, securityProperties.getToken().getAccessTokenExpire());
 
         Collection<? extends GrantedAuthority> authorities = authenticate.getAuthorities();
         LoginUserVO loginUserVO = new LoginUserVO();
         loginUserVO.setToken(token);
         if (CollUtil.isNotEmpty(authorities)) {
-            loginUserVO.setAuthorities(authorities.stream().map(auth -> auth.getAuthority()).collect(Collectors.toList()));
+            loginUserVO.setAuthorities(authorities.stream().map(GrantedAuthority::getAuthority).toList());
         }
         //手机验证码登录成功要马上清除验证码
         if (authentication instanceof PhoneAuthenticationToken) {
-            redisTemplate.del(CacheConst.SMS_CODE_LOGIN_PREFIX + StrPool.COLON + authentication.getPrincipal());
+            redisTemplate.del(securityProperties.getToken().getSmsCodeLoginPrefix() + authentication.getPrincipal());
         }
         return loginUserVO;
     }

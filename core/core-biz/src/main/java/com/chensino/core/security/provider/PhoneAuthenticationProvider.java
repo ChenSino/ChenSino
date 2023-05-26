@@ -1,16 +1,14 @@
 package com.chensino.core.security.provider;
 
-import cn.hutool.core.text.StrPool;
 import com.chensino.common.core.exception.VerificationCodeException;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
-import com.chensino.common.data.configuration.constant.CacheConst;
+import com.chensino.common.security.component.properties.SecurityProperties;
 import com.chensino.core.api.entity.CustomSecurityUser;
 import com.chensino.core.api.entity.SysUser;
 import com.chensino.core.security.token.PhoneAuthenticationToken;
 import com.chensino.core.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -31,6 +29,7 @@ public class PhoneAuthenticationProvider implements AuthenticationProvider {
     private final UserDetailsService userDetailsService;
     private final SysUserService sysUserService;
     private final IGlobalCache redisTemplate;
+    private final SecurityProperties securityProperties;
 
 
     @Override
@@ -38,7 +37,7 @@ public class PhoneAuthenticationProvider implements AuthenticationProvider {
         log.info("enter into custom AuthenticationProvider");
         // 校验手机号/验证码是否匹配
         String phone = authentication.getPrincipal().toString();
-        String smsCode = redisTemplate.get(CacheConst.SMS_CODE_LOGIN_PREFIX + StrPool.COLON + phone);
+        String smsCode = redisTemplate.get(securityProperties.getToken().getSmsCodeLoginPrefix() + phone);
         if (smsCode == null) {
             throw new VerificationCodeException("请先发送验证码");
         }

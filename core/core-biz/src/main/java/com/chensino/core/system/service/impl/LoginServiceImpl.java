@@ -1,11 +1,10 @@
 package com.chensino.core.system.service.impl;
 
-import cn.hutool.core.text.StrPool;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
-import com.chensino.common.data.configuration.constant.CacheConst;
+import com.chensino.common.security.component.properties.SecurityProperties;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.entity.SysUserThird;
 import com.chensino.core.api.properties.GithubProperties;
@@ -40,6 +39,8 @@ public class LoginServiceImpl implements LoginService {
     private final SysUserThirdMapper sysUserThirdMapper;
 
     private final GithubProperties githubProperties;
+
+    private final SecurityProperties securityProperties;
 
     @Value("${token.expiration}")
     private Long expiration;
@@ -83,6 +84,6 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void logout(String bearerToken) {
-        redisTemplate.del(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + bearerToken.split(" ")[1]);
+        redisTemplate.del(securityProperties.getToken().getAccessTokenPrefix() + bearerToken.split(" ")[1]);
     }
 }

@@ -1,0 +1,23 @@
+security:
+  whiteList:
+    - /login/**
+    - /management/**
+    - /management
+    - /swagger-ui/**
+    - /swagger-resources/**
+    - /webjars/**
+    - /v3/api-docs
+    - /v3/api-docs/**
+    - /error
+    - /favicon.ico
+  token:
+    accessTokenExpire: 3600
+    accessTokenDetect: 1800
+    accessTokenPrefix: 'chensino:access_token:'
+    smsCodeLoginPrefix: 'chensino:login:sms_code:'
+    smsCodeRegisterPrefix: 'chensino:register:sms_code:'
+
+chensino:
+  common:
+    log:
+      logTableName: t_operate_log

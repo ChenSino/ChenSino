@@ -1,8 +1,7 @@
 package com.chensino.core.security.filter;
 
-import cn.hutool.core.text.StrPool;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
-import com.chensino.common.data.configuration.constant.CacheConst;
+import com.chensino.common.security.component.properties.SecurityProperties;
 import com.chensino.core.api.entity.CustomSecurityUser;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,6 +23,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private IGlobalCache redisTemplate;
 
+    private SecurityProperties securityProperties;
+
+    @Autowired
+    public void setSecurityProperties(SecurityProperties securityProperties) {
+        this.securityProperties = securityProperties;
+    }
+
     @Autowired
     public void setRedisTemplate(IGlobalCache redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -40,11 +46,25 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
         String token = bearerToken.split(" ")[1];
         //3. 根据token查询用户信息，目标是设置SecurityContext
-        CustomSecurityUser customSecurityUser = redisTemplate.get(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + token);
+        CustomSecurityUser customSecurityUser = redisTemplate.get(securityProperties.getToken().getAccessTokenPrefix() + token);
         if (Objects.nonNull(customSecurityUser)) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(customSecurityUser.getUsername(), customSecurityUser.getPassword(), customSecurityUser.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            // 4. token续期
+            tokenRenewal(token);
         }
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * token续签
+     *
+     * @param token
+     */
+    private void tokenRenewal(String token) {
+        long expire = redisTemplate.getExpire(securityProperties.getToken().getAccessTokenPrefix() + token);
+        if (expire < securityProperties.getToken().getAccessTokenDetect()) {
+            redisTemplate.expire(securityProperties.getToken().getAccessTokenPrefix() + token, securityProperties.getToken().getAccessTokenExpire());
+        }
     }
 }

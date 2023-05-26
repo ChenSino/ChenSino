@@ -11,6 +11,8 @@ server:
 #  servlet:
 #    context-path: /chensino
 spring:
+  profiles:
+    active: dev
   security:
     oauth2:
       client:
@@ -127,23 +129,6 @@ springfox:
     swagger-ui:
       enabled: true
 
-
-security:
-  whiteList:
-    - /login/**
-    - /management/**
-    - /management
-    - /swagger-ui/**
-    - /swagger-resources/**
-    - /webjars/**
-    - /v3/api-docs
-    - /v3/api-docs/**
-    - /error
-    - /favicon.ico
-chensino:
-  common:
-    log:
-      logTableName: t_operate_log
 jasypt:
   encryptor:
     # 加密的盐值，为了安全，该配置可以放在启动参数或者命令行参数中
