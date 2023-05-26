@@ -35,8 +35,8 @@ public class SysLogUtils {
         OperateLog sysLog = new OperateLog();
 
         ServiceLoader<ExtendLogField> serviceLoader = ServiceLoader.load(ExtendLogField.class);
-        var otherProperties = serviceLoader.findFirst().get();
-        sysLog.setCreateBy(otherProperties.currentUser());
+        //设置createBy字段，若调用方没提供SPI则createBy为null
+        serviceLoader.findFirst().ifPresent(extendLogField -> sysLog.setCreateBy(extendLogField.currentUser()));
         sysLog.setType(LogTypeEnum.NORMAL.getType());
         //springboot3中使用的HttpServletRequest包名改了不再是javax.servlet.http,改成了jakarta.servlet.http
         sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
@@ -52,6 +52,7 @@ public class SysLogUtils {
 
     /**
      * 获取用户名称
+     *
      * @return username
      */
     private String getUsername() {
@@ -64,10 +65,11 @@ public class SysLogUtils {
 
     /**
      * 获取spel 定义的参数值
+     *
      * @param context 参数容器
-     * @param key key
-     * @param clazz 需要返回的类型
-     * @param <T> 返回泛型
+     * @param key     key
+     * @param clazz   需要返回的类型
+     * @param <T>     返回泛型
      * @return 参数值
      */
     public <T> T getValue(EvaluationContext context, String key, Class<T> clazz) {
@@ -78,7 +80,8 @@ public class SysLogUtils {
 
     /**
      * 获取参数容器
-     * @param arguments 方法的参数列表
+     *
+     * @param arguments       方法的参数列表
      * @param signatureMethod 被执行的方法体
      * @return 装载参数的容器
      */
