@@ -63,6 +63,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
      */
     private void tokenRenewal(String token) {
         long expire = redisTemplate.getExpire(securityProperties.getToken().getAccessTokenPrefix() + token);
+        //若剩余过期时间小于指定时间，就要提前续期
         if (expire < securityProperties.getToken().getAccessTokenDetect()) {
             redisTemplate.expire(securityProperties.getToken().getAccessTokenPrefix() + token, securityProperties.getToken().getAccessTokenExpire());
         }
