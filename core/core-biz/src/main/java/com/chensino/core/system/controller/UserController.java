@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @SysLog("修改用户")
-    @PostMapping
+    @PutMapping
     @Operation(summary = "修改用户", description = "修改用户")
     public ResponseEntity<Object> update(@Valid @RequestBody SysUser user) {
         return ResponseEntity.ok(sysUserService.saveOrUpdate(user));

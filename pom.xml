@@ -18,7 +18,7 @@
     </organization>
 
     <properties>
-        <java.version>20</java.version>
+        <java.version>17</java.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -31,6 +31,7 @@
         <aws.version>1.12.464</aws.version>
         <spring.security.oauth2.version>2.5.2.RELEASE</spring.security.oauth2.version>
         <jasypt.version>3.0.5</jasypt.version>
+        <maku-generator-boot-starter.version>3.0.2</maku-generator-boot-starter.version>
     </properties>
 
     <!--子模块公共依赖-->
@@ -45,6 +46,11 @@
     <!--子模块可选依赖-->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>net.maku</groupId>
+                <artifactId>maku-generator-boot-starter</artifactId>
+                <version>${maku-generator-boot-starter.version}</version>
+            </dependency>
             <!--引入springboot版本管理，统一依赖，子模块无需指定版本，防止冲突-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -81,6 +87,11 @@
             <dependency>
                 <groupId>com.chensino</groupId>
                 <artifactId>common-swagger</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chensino</groupId>
+                <artifactId>common-oss</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

@@ -13,4 +13,10 @@ public interface ExtendLogField {
      * @return
      */
     String currentUser();
+    /**
+     * 根据一段sql,从数据库查询一个对象，并且转化为json
+     * @param sql
+     * @return
+     */
+    String originObj(String sql) ;
 }

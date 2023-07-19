@@ -10,6 +10,8 @@ security:
     - /v3/api-docs/**
     - /error
     - /favicon.ico
+    - /maku-generator/**
+    - /static/**
   token:
     accessTokenExpire: 3600
     accessTokenDetect: 1800
@@ -21,3 +23,5 @@ chensino:
   common:
     log:
       logTableName: t_operate_log
+generator:
+  template: /template/maku-boot
