@@ -71,6 +71,12 @@
             <level>debug</level>
         </filter>
     </appender>
+    <logger name="org.apache.ibatis" level="info">
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="org.mybatis" level="info">
+        <appender-ref ref="console"/>
+    </logger>
 <!--    -->
     <logger name="com.chensino">
         <appender-ref ref="error"/>

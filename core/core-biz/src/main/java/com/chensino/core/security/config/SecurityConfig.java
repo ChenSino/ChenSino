@@ -65,7 +65,7 @@ public class SecurityConfig {
      */
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers("/user/jumpAllFilterTest", "/user/getSession");
+        return web -> web.ignoring().requestMatchers("/user/jumpAllFilterTest", "/user/getSession","/maku-generator/**");
     }
 
 

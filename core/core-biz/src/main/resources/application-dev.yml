@@ -23,5 +23,7 @@ chensino:
   common:
     log:
       logTableName: t_operate_log
+
 generator:
-  template: /template/maku-boot
+  template: /templates/maku-boot
+
