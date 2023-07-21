@@ -42,9 +42,9 @@ spring:
     suffix: .ftl
     cache: false
     template-loader-path: classpath:/templates/
-  main:
-    #懒加载bean,用到的时候再创建，默认为false,类似BeanFactory
-    lazy-initialization: true
+#  main:
+    #懒加载bean,用到的时候再创建，默认为false,类似BeanFactory,此配置开启后@Configration注解的类在没有用到的时候也不会被加载
+#    lazy-initialization: true
   application:
     name: chensino-core
   datasource:

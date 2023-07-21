@@ -20,9 +20,9 @@ public class JacksonConfig {
         // 序列化设置 将Long类型的数据转为String类型，避免js丢失精度
         return builder -> builder.serializerByType(Long.class, ToStringSerializer.instance)
                 // 反序列化设置 关闭反序列化时Jackson发现无法找到对应的对象字段，便会抛出UnrecognizedPropertyException: Unrecognized field xxx异常
-                .featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .featuresToDisable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 // 序列化设置 关闭日志输出为时间戳的设置
-                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 // 返回所有字段
                 .serializationInclusion(JsonInclude.Include.ALWAYS).modules(new JavaTimeModule());
     }
