@@ -18,6 +18,7 @@
         <module>common-data</module>
         <module>common-swagger</module>
         <module>common-oss</module>
+        <module>common-elasticsearch</module>
     </modules>
     <build>
         <plugins>
