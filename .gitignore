@@ -123,3 +123,9 @@ rabbitmq/data/**
 
 ##minio
 minio/
+
+## elastic
+elasticsearch/data/**
+elasticsearch/logs/**
+
+## kibana

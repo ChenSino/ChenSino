@@ -1,2 +1,30 @@
 cluster.name: "docker-cluster"
 network.host: 0.0.0.0
+
+#----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------
+#
+# The following settings, TLS certificates, and keys have been automatically      
+# generated to configure Elasticsearch security features on 03-01-2024 00:55:03
+#
+# --------------------------------------------------------------------------------
+
+# Enable security features
+xpack.security.enabled: true
+
+xpack.security.enrollment.enabled: true
+
+# Enable encryption for HTTP API client connections, such as Kibana, Logstash, and Agents
+xpack.security.http.ssl:
+  enabled: false
+
+# Enable encryption and mutual authentication between cluster nodes
+xpack.security.transport.ssl:
+  enabled: false
+#----------------------- END SECURITY AUTO CONFIGURATION -------------------------
+
+# 是否支持跨域
+http.cors.enabled: true
+# 表示支持所有域名
+http.cors.allow-origin: "*"
+# 内存交换的选项，官网建议为true
+bootstrap.memory_lock: true

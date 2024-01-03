@@ -70,17 +70,42 @@ services:
     restart: no
     container_name: chensino-elasticsearch
     image: elasticsearch:8.11.3
+    hostname: chensino-elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
-      - "discovery.type=single-node"
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits: # 栈内存的上限
+      memlock:
+        soft: -1    # 不限制
+        hard: -1    # 不限制
     volumes:
-      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./elasticsearch/data:/usr/share/elasticsearch/data
       - ./elasticsearch/logs:/usr/share/elasticsearch/logs
+      - ./elasticsearch/config:/usr/share/elasticsearch/config
+      - ./elasticsearch/plugins:/usr/share/elasticsearch/plugins
     networks:
       - custom
+
+  chensino-kibana:
+    restart: no
+    container_name: chensino-kibana
+    image: kibana:8.11.3
+    environment:
+      - ELASTICSEARCH_HOSTS=http://chensino-elasticsearch:9200
+    ports:
+      - "5601:5601"
+    volumes:
+      - ./kibana/config:/usr/share/kibana/config
+    networks:
+      - custom
+#    depends_on:
+#      - chensino-elasticsearch
+
+
 #  core-biz:
 #    build:
 #      context: ./core/core-biz
