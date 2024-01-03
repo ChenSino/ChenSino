@@ -57,12 +57,12 @@
         </filter>
     </appender>
 
-    <logger name="com.chensino">
+<!--    <logger name="com.chensino">
         <appender-ref ref="error"/>
     </logger>
     <logger name="com.chensino">
         <appender-ref ref="info"/>
-    </logger>
+    </logger>-->
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO">
         <appender-ref ref="console"/>

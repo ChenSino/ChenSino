@@ -1,0 +1,59 @@
+{
+  "mappings": {
+    "properties": {
+      "userId": {
+        "type": "long"
+      },
+      "username": {
+        "type": "text",
+        "analyzer": "ik_max_word"
+      },
+      "nickName": {
+        "type": "text",
+        "analyzer": "ik_max_word"
+      },
+      "employId": {
+        "type": "text"
+      },
+      "password": {
+        "type": "text"
+      },
+      "phone": {
+        "type": "text"
+      },
+      "avatar": {
+        "type": "text"
+      },
+      "deptId": {
+        "type": "long"
+      },
+      "email": {
+        "type": "text",
+        "analyzer": "ik_max_word"
+      },
+      "status": {
+        "type": "long"
+      },
+      "createTime": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "creatorId": {
+        "type": "long"
+      },
+      "updateTime": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "updateBy": {
+        "type": "text"
+      },
+      "delFlag": {
+        "type": "boolean"
+      },
+      "lockFlag": {
+        "type": "boolean"
+      }
+    }
+  }
+}
