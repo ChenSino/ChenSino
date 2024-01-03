@@ -11,6 +11,11 @@ server:
 #  servlet:
 #    context-path: /chensino
 spring:
+  elasticsearch:
+    username: elastic
+    password: 123456
+    uris: localhost:9200
+
   security:
     oauth2:
       client:
@@ -59,6 +64,9 @@ spring:
     resources:
       add-mappings: false
   data:
+    elasticsearch:
+      repositories:
+        enabled: true
     redis:
       database: 0
       password: 123456

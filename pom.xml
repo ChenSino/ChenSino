@@ -81,6 +81,11 @@
             </dependency>
             <dependency>
                 <groupId>com.chensino</groupId>
+                <artifactId>common-elasticsearch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.chensino</groupId>
                 <artifactId>common-swagger</artifactId>
                 <version>${project.version}</version>
             </dependency>

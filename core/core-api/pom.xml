@@ -38,6 +38,10 @@
             <groupId>com.chensino</groupId>
             <artifactId>common-data</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.chensino</groupId>
+            <artifactId>common-elasticsearch</artifactId>
+        </dependency>
         <!--JDBC相关-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
