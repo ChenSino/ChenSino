@@ -8,17 +8,15 @@ import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.message.BasicHeader;
 import org.elasticsearch.client.RestClient;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author chenkun
  * @description: elasticsearch配置类
  * @create: 2024-01-03 11:28:10
  **/
-@Configuration
-@ConfigurationProperties(prefix = "elasticsearch")
+//@Configuration
+//@ConfigurationProperties(prefix = "elasticsearch")
 public class ElasticSearchConfig {
 
     @Bean

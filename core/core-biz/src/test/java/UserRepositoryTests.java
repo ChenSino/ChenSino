@@ -1,9 +1,10 @@
 import cn.hutool.core.collection.CollUtil;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.bulk.BulkOperation;
+import co.elastic.clients.elasticsearch.core.search.HighlighterType;
 import co.elastic.clients.elasticsearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.core.search.HitsMetadata;
 import co.elastic.clients.elasticsearch.indices.CreateIndexRequest;
 import co.elastic.clients.elasticsearch.indices.DeleteIndexResponse;
 import co.elastic.clients.elasticsearch.indices.GetIndexResponse;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * @author chenkun
@@ -208,11 +209,22 @@ class UserRepositoryTests {
                         m -> m.fields("nickName","username", "email")
                                .query("管理员的大哥chensino")
                 ))
+                //高亮字段
+                .highlight(h -> h.fields("nickName",hb->hb.type(HighlighterType.Unified).numberOfFragments(0).preTags("<em>").postTags("</em>")))
                 //分页查询，从第0页开始查询3个document
                 .from(0)
                 .size(100), SysUser.class);
-        for (Hit<SysUser> hit : search.hits().hits()) {
-            log.info(hit.source().toString());
+
+
+        HitsMetadata<SysUser> hits = search.hits();
+
+        for (Hit<SysUser> hit : hits.hits()) {
+            // 高亮字段
+            Map<String, List<String>> highlight = hit.highlight();
+            List<String> nickName = highlight.get("nickName");
+
+           //源字段
+            System.out.println(hit.source());
         }
     }
 }
