@@ -1,7 +1,7 @@
 #
 # ** THIS IS AN AUTO-GENERATED FILE **
 #
-i18n.locale: zh-CN
+#i18n.locale: zh-CN
 # Default Kibana configuration for docker target
 server.host: "0.0.0.0"
 server.shutdownTimeout: "5s"
@@ -9,4 +9,4 @@ elasticsearch.hosts: [ "http://chensino-elasticsearch:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 
 elasticsearch.username: kibana_system
-elasticsearch.password: "123456"
+elasticsearch.password: sonoscape

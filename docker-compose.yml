@@ -1,70 +1,70 @@
 version: '3'
 
 services:
-  chensino-mysql:
-    build:
-      context: ./db
-    environment:
-      MYSQL_ROOT_HOST: "%"
-      MYSQL_ROOT_PASSWORD: root
-    restart: always
-    container_name: chensino-mysql
-    image: chensino-mysql
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./chensino-mysql:/var/lib/mysql
-    command: --lower_case_table_names=1
-    networks:
-      - custom
-
-  chensino-redis:
-    container_name: chensino-redis
-    image: redis:6.2.6
-    restart: no
-    command: redis-server /etc/redis/redis.conf
-    volumes:
-      - ./redis/conf:/etc/redis  #指定外部配置
-      - ./redis/data:/data #指定数据目录，此配置一定要有
-    ports:
-      - "6379:6379"
-    networks:
-      - custom
-
-  chensino-rabbitmq:
-    restart: no
-    container_name: chensino-rabbitmq
-    image: rabbitmq:3-management
-    volumes:
-      - ./rabbitmq/conf:/etc/rabbitmq
-      - ./rabbitmq/data:/var/lib/rabbitmq
-#      - ./rabbitmq/log:/var/log/rabbitmq
-    ports:
-      - "15672:15672" #web页面
-      - "5672:5672"
-    environment:
-      RABBITMQ_DEFAULT_USER: chensino
-      RABBITMQ_DEFAULT_PASS: 123456
-    networks:
-      - custom
-
-  chensino-minio:
-    restart: no
-    container_name: chensino-minio
-    image: minio/minio
-    ports:
-      - "9000:9000"
-      - "9001:9001" #web页面
-    volumes:
-      - ./minio/data:/data
-      - ./minio/config:/root/.minio/
-    environment:
-      - "MINIO_ACCESS_KEY=admin"
-      - "MINIO_SECRET_KEY=12345678"
-    command: server --console-address ':9001' /data
-    privileged: true
-    networks:
-      - custom
+#  chensino-mysql:
+#    build:
+#      context: ./db
+#    environment:
+#      MYSQL_ROOT_HOST: "%"
+#      MYSQL_ROOT_PASSWORD: root
+#    restart: always
+#    container_name: chensino-mysql
+#    image: chensino-mysql
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - ./chensino-mysql:/var/lib/mysql
+#    command: --lower_case_table_names=1
+#    networks:
+#      - custom
+#
+#  chensino-redis:
+#    container_name: chensino-redis
+#    image: redis:6.2.6
+#    restart: no
+#    command: redis-server /etc/redis/redis.conf
+#    volumes:
+#      - ./redis/conf:/etc/redis  #指定外部配置
+#      - ./redis/data:/data #指定数据目录，此配置一定要有
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - custom
+#
+#  chensino-rabbitmq:
+#    restart: no
+#    container_name: chensino-rabbitmq
+#    image: rabbitmq:3-management
+#    volumes:
+#      - ./rabbitmq/conf:/etc/rabbitmq
+#      - ./rabbitmq/data:/var/lib/rabbitmq
+##      - ./rabbitmq/log:/var/log/rabbitmq
+#    ports:
+#      - "15672:15672" #web页面
+#      - "5672:5672"
+#    environment:
+#      RABBITMQ_DEFAULT_USER: chensino
+#      RABBITMQ_DEFAULT_PASS: 123456
+#    networks:
+#      - custom
+#
+#  chensino-minio:
+#    restart: no
+#    container_name: chensino-minio
+#    image: minio/minio
+#    ports:
+#      - "9000:9000"
+#      - "9001:9001" #web页面
+#    volumes:
+#      - ./minio/data:/data
+#      - ./minio/config:/root/.minio/
+#    environment:
+#      - "MINIO_ACCESS_KEY=admin"
+#      - "MINIO_SECRET_KEY=12345678"
+#    command: server --console-address ':9001' /data
+#    privileged: true
+#    networks:
+#      - custom
 
   chensino-elasticsearch:
     restart: no
@@ -105,6 +105,28 @@ services:
     depends_on:
       - chensino-elasticsearch
 
+  chensino-logstash:
+    image: logstash:8.11.3
+    container_name: chensino-logstash
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - './logstash/config:/usr/share/logstash/config'
+      - './logstash/pipeline:/usr/share/logstash/pipeline'
+      - './logstash/data:/usr/share/logstash/data'
+    ports:
+      - '5044:5044'
+      - '50000:50000/tcp'
+      - '50000:50000/udp'
+      - '9600:9600'
+    environment:
+      LS_JAVA_OPTS: -Xms1024m -Xmx1024m
+      TZ: Asia/Shanghai
+      MONITORING_ENABLED: false
+    networks:
+      - custom
+    depends_on:
+      - chensino-elasticsearch
 
 #  core-biz:
 #    build:
