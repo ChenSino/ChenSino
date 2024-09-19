@@ -28,3 +28,5 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 # 内存交换的选项，官网建议为true
 bootstrap.memory_lock: true
+
+http.cors.allow-headers: Authorization

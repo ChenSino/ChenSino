@@ -129,3 +129,4 @@ elasticsearch/data/**
 elasticsearch/logs/**
 
 ## kibana
+filebeat/**

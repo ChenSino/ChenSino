@@ -9,4 +9,4 @@ elasticsearch.hosts: [ "http://chensino-elasticsearch:9200" ]
 monitoring.ui.container.elasticsearch.enabled: true
 
 elasticsearch.username: kibana_system
-elasticsearch.password: sonoscape
+elasticsearch.password: "123456"
