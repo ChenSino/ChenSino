@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -75,29 +76,28 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     public SecurityFilterChain webSiteSecurityFilterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests()
-                //自定义url匹配规则
-                .requestMatchers(permitAllRequestMatcher)
-                .permitAll()
-                .anyRequest()//剩下所有的请求
-                .authenticated()  // 所有请求都必须要认证才可以访问
-                .and()
-                // 禁用csrf
-                .csrf()
-                .disable()
-                // 异常处理
-                .exceptionHandling()
-                .authenticationEntryPoint(customAuthenticationEntryPoint)
+                // 使用新的请求授权配置
+                .authorizeHttpRequests(authorize -> authorize
+                        // 自定义url匹配规则
+                        .requestMatchers(permitAllRequestMatcher).permitAll()
+                        .anyRequest().authenticated()
+                )
+                // 禁用 CSRF
+                .csrf(AbstractHttpConfigurer::disable)
+                // 配置异常处理
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                )
+                // 禁止生成 session
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
 
-                .and()
-                .sessionManagement()
-                //禁止生成session,也不会向客户端返回session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .build();
+        return http.build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
