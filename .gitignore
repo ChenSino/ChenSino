@@ -113,20 +113,20 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 #mysql
-chensino-mysql/
+docker/chensino-mysql/
 
 #redis
-redis/data/**
+docker/redis/data/**
 
 ##rabbitMQ
-rabbitmq/data/**
+docker/rabbitmq/data/**
 
 ##minio
-minio/
+docker/minio/
 
 ## elastic
-elasticsearch/data/**
-elasticsearch/logs/**
+docker/elasticsearch/data/**
+docker/elasticsearch/logs/**
 
 ## kibana
-filebeat/**
+docker/filebeat/**

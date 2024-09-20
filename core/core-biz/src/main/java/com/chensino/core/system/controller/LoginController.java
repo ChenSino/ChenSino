@@ -34,7 +34,7 @@ public class LoginController {
 
     @PostMapping
     @ResponseBody
-    @SysLog("登录接口")
+//    @SysLog("登录接口")
     @Operation(summary = "登录接口", description = "登录接口")
     public ResponseEntity<LoginUserVO> login(@RequestBody @Validated  UserLoginDTO userLoginDTO) {
         return ResponseEntity.ok(loginService.login(userLoginDTO));
