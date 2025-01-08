@@ -16,6 +16,28 @@ USE chensino;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+DROP TABLE IF EXISTS `t_operate_log`;
+CREATE TABLE `t_operate_log` (
+                                 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+                                 `type` varchar(32) NOT NULL COMMENT '日志类型',
+                                 `title` varchar(64) NOT NULL COMMENT '日志标题',
+                                 `create_by` varchar(32) DEFAULT NULL COMMENT '创建者',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                 `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
+                                 `user_agent` varchar(255) DEFAULT NULL COMMENT '用户代理',
+                                 `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
+                                 `class_name` varchar(255) DEFAULT NULL COMMENT '类名',
+                                 `method` varchar(255) DEFAULT NULL COMMENT '操作方式',
+                                 `params` text COMMENT '操作提交的数据',
+                                 `time` bigint(20) DEFAULT NULL COMMENT '执行时间',
+                                 `exception` text COMMENT '异常信息',
+                                 `service_id` varchar(255) DEFAULT NULL COMMENT '服务ID',
+                                 `del_flag` bit(1) DEFAULT b'0' COMMENT '删除标记',
+                                 PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 --
 -- Table structure for table `t_menu`
 --
@@ -207,3 +229,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-05-04 18:09:00
+

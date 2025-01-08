@@ -34,13 +34,7 @@ public class MinioController {
         return ResponseEntity.ok();
     }
 
-    /**
-     * 查询桶列表
-     *
-     * @return
-     */
     @GetMapping("buckets")
-    @PostMapping("upload")
     @Operation(summary = "查询桶列表", description = "查询桶列表")
     public ResponseEntity<List<Bucket>> listBuckets() {
         return ResponseEntity.ok(minioService.getAllBuckets());

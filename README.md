@@ -42,3 +42,10 @@ mvn clean package
 docker compose up
 ```
 
+## 文档
+
+OpenAPI 描述的路径：<http://localhost:8888/v3/api-docs>，可以使用apifox之类的工具访问此接口一次性导入所有接口
+
+SwaggerUI接口文档：<http://localhost:8888/swagger-ui/index.html>
+
+参考：<https://springdoc.cn/spring-rest-openapi-documentation/>

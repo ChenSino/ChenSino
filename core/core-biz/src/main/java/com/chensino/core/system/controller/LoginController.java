@@ -26,7 +26,7 @@ import java.util.Base64;
 @Controller
 @RequestMapping("login")
 @Data
-@Tag(name = "系统用户接口", description = "系统用户接口")
+@Tag(name = "登录接口", description = "登录接口")
 public class LoginController {
 
     private final LoginService loginService;

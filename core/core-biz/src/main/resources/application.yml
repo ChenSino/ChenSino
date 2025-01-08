@@ -116,8 +116,10 @@ info:
 minio:
   endpoint: chensino-minio:9000
   region: ap-southeast-1
-  access-key: Nnz2FawqpPnJLdeg
-  secret-key: 0nUgm71w7Tzo7RpqgXVuVkJpDu2IIMMH
+  access-key: LgVAUFJKZ0C5wlU6utwy
+  secret-key: MUNQ6AvEnYH4XNz1eVgahHM8FwqUW3XjK4IpRiVP
+#  access-key: Nnz2FawqpPnJLdeg
+#  secret-key: 0nUgm71w7Tzo7RpqgXVuVkJpDu2IIMMH
 
 oauth:
   github:
@@ -138,6 +140,7 @@ springfox:
 security:
   whiteList:
     - /login/**
+    - /comment/**
     - /management/**
     - /management
     - /swagger-ui/**
