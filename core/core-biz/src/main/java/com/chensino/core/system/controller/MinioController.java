@@ -45,7 +45,15 @@ public class MinioController {
     @SysLog("查询文件列表")
     @Operation(summary = "查询某个桶文件列表", description = "查询某个桶文件列表")
     @Parameter(name = "bucketName", description = "桶名", required = true)
-    public ResponseEntity<ObjectListing> listFilesByBucket(@PathVariable String bucketName) {
+    public ResponseEntity<ObjectListing> listFilesByBucket(@PathVariable(value = "bucketName") String bucketName) {
         return ResponseEntity.ok(minioService.listObjects(bucketName));
+    }
+
+    @OpenApi
+    @SysLog("测试访问私有文件")
+    @Operation(summary = "测试访问私有文件", description = "测试访问私有文件")
+    @GetMapping("/private/test")
+    public ResponseEntity<String> testVisitPrivate() {
+        return ResponseEntity.ok(minioService.testVisitPrivate());
     }
 }

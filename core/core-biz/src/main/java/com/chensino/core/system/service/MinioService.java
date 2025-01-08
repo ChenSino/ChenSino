@@ -17,4 +17,6 @@ public interface MinioService {
 
     ObjectListing listObjects(String bucketName);
 
+    String testVisitPrivate();
+
 }
