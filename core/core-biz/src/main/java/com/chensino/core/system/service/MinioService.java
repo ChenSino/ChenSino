@@ -1,6 +1,7 @@
 package com.chensino.core.system.service;
 
 import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.Grant;
 import com.amazonaws.services.s3.model.ObjectListing;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,5 +19,7 @@ public interface MinioService {
     ObjectListing listObjects(String bucketName);
 
     String testVisitPrivate();
+
+    List<Grant> getBucketAcl(String bucketName);
 
 }

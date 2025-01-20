@@ -3,19 +3,17 @@ package com.chensino.core.system.service.impl;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.text.StrPool;
 import com.amazonaws.HttpMethod;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.Grant;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.chensino.common.core.exception.BadParameterException;
 import com.chensino.common.core.exception.BusinessException;
 import com.chensino.common.oss.service.OssTemplate;
 import com.chensino.core.system.service.MinioService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +29,7 @@ import java.util.UUID;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MinoServiceImpl implements MinioService {
 
     private final OssTemplate ossTemplate;
@@ -76,8 +75,18 @@ public class MinoServiceImpl implements MinioService {
             URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
             return url.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+           log.error(e.getMessage());
         }
         return "";
+    }
+
+    @Override
+    public List<Grant> getBucketAcl(String bucketName) {
+        try {
+            return amazonS3.getBucketAcl(bucketName).getGrantsAsList();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return List.of();
     }
 }

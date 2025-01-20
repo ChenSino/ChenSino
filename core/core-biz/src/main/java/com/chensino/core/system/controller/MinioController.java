@@ -1,6 +1,7 @@
 package com.chensino.core.system.controller;
 
 import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.Grant;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.log.annotation.SysLog;
@@ -8,6 +9,7 @@ import com.chensino.common.security.component.annotation.OpenApi;
 import com.chensino.core.system.service.MinioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +23,7 @@ import java.util.List;
 @RestController
 @RequestMapping("minio")
 @AllArgsConstructor
-@Tag(name = "上传文件", description = "上传文件")
+@Tag(name = "Minio管理", description = "Minio管理")
 public class MinioController {
 
     private final MinioService minioService;
@@ -40,8 +42,15 @@ public class MinioController {
         return ResponseEntity.ok(minioService.getAllBuckets());
     }
 
+    @GetMapping("/bucket/{bucketName}/acl")
+    @SysLog("查询bucket权限")
+    @Operation(summary = "查询bucket权限", description = "查询bucket权限")
+    @Parameter(name = "bucketName", description = "桶名", required = true,in = ParameterIn.PATH)
+    public ResponseEntity<List<Grant>> getBucketAcl(@PathVariable(value = "bucketName") String bucketName) {
+        return ResponseEntity.ok(minioService.getBucketAcl(bucketName));
+    }
+
     @GetMapping("/files/{bucketName}")
-    @OpenApi
     @SysLog("查询文件列表")
     @Operation(summary = "查询某个桶文件列表", description = "查询某个桶文件列表")
     @Parameter(name = "bucketName", description = "桶名", required = true)
