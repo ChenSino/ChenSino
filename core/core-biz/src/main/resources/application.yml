@@ -144,3 +144,7 @@ security:
     - /v3/api-docs/**
     - /error
     - /favicon.ico
+springdoc:
+  api-docs:
+    enabled: true
+
