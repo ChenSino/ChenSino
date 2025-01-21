@@ -1,6 +1,7 @@
 package com.chensino.core.security.config;
 
 import com.chensino.common.security.component.PermitAllRequestMatcher;
+import com.chensino.common.security.component.properties.SecurityProperties;
 import com.chensino.core.security.entrypoint.CustomAuthenticationEntryPoint;
 import com.chensino.core.security.filter.TokenAuthenticationFilter;
 import com.chensino.core.security.provider.GithubAuthenticationProvider;
@@ -23,6 +24,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author chenkun
@@ -40,6 +46,7 @@ public class SecurityConfig {
     private final PhoneAuthenticationProvider phoneAuthenticationProvider;
     private final GithubAuthenticationProvider githubAuthenticationProvider;
     private final PermitAllRequestMatcher permitAllRequestMatcher;
+    private final SecurityProperties securityProperties;
 
 
     /**
@@ -57,7 +64,7 @@ public class SecurityConfig {
      */
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers("/user/jumpAllFilterTest", "/user/getSession");
+        return web -> web.ignoring().requestMatchers(securityProperties.getStaticUrlList().toArray(new String[0]));
     }
 
 
@@ -122,9 +129,7 @@ public class SecurityConfig {
 //    @Bean
 //    public HttpFirewall strictHttpFirewall() {
 //        StrictHttpFirewall strictHttpFirewall = new StrictHttpFirewall();
-//        strictHttpFirewall.setAllowedHttpMethods(Arrays.asList("post"));
+//        strictHttpFirewall.setAllowedHttpMethods(List.of("post"));
 //        return strictHttpFirewall;
 //    }
-
-
 }

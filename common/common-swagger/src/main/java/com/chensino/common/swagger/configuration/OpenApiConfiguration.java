@@ -43,6 +43,7 @@ public class OpenApiConfiguration {
                 .components(components);
     }
 
+    //以下分组仅作测试用，实际项目使用时可以按照版本分组，比如v1、v2等，或者按照移动端、PC后台划分比如admin、app
     /**
      * demo 分组
      *

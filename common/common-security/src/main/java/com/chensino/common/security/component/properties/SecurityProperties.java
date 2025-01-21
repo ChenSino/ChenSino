@@ -15,7 +15,12 @@ import java.util.List;
 @Configuration
 public class SecurityProperties {
     /**
-     * 白名单
+     * api白名单
      */
     private List<String> whiteList;
+
+    /**
+     * 静态资源白名单
+     */
+    private List<String> staticUrlList;
 }

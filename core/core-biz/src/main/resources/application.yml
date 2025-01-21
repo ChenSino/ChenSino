@@ -134,17 +134,17 @@ oauth:
 security:
   whiteList:
     - /login/**
-    - /comment/**
     - /management/**
     - /management
+    - /error
+  staticUrlList:
+    - /favicon.ico
     - /swagger-ui/**
     - /swagger-resources/**
     - /webjars/**
     - /v3/api-docs
     - /v3/api-docs/**
-    - /error
-    - /favicon.ico
 springdoc:
   api-docs:
     enabled: true
-
+  show-login-endpoint: true
