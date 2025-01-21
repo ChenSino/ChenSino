@@ -1,8 +1,5 @@
 package com.chensino.core.system.controller;
 
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.Grant;
-import com.amazonaws.services.s3.model.ObjectListing;
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.log.annotation.SysLog;
 import com.chensino.common.security.component.annotation.OpenApi;
@@ -14,6 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.model.Bucket;
+import software.amazon.awssdk.services.s3.model.Grant;
+import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class MinioController {
     @SysLog("查询文件列表")
     @Operation(summary = "查询某个桶文件列表", description = "查询某个桶文件列表")
     @Parameter(name = "bucketName", description = "桶名", required = true)
-    public ResponseEntity<ObjectListing> listFilesByBucket(@PathVariable(value = "bucketName") String bucketName) {
+    public ResponseEntity<ListObjectsResponse> listFilesByBucket(@PathVariable(value = "bucketName") String bucketName) {
         return ResponseEntity.ok(minioService.listObjects(bucketName));
     }
 

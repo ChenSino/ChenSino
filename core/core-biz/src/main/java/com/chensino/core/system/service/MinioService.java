@@ -1,9 +1,9 @@
 package com.chensino.core.system.service;
 
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.Grant;
-import com.amazonaws.services.s3.model.ObjectListing;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.model.Bucket;
+import software.amazon.awssdk.services.s3.model.Grant;
+import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface MinioService {
     void upload(String bucketName, List<MultipartFile>  files);
     List<Bucket> getAllBuckets();
 
-    ObjectListing listObjects(String bucketName);
+    ListObjectsResponse listObjects(String bucketName);
 
     String testVisitPrivate();
 

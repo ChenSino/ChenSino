@@ -2,12 +2,6 @@ package com.chensino.core.system.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.text.StrPool;
-import com.amazonaws.HttpMethod;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.Grant;
-import com.amazonaws.services.s3.model.ObjectListing;
 import com.chensino.common.core.exception.BadParameterException;
 import com.chensino.common.core.exception.BusinessException;
 import com.chensino.common.oss.service.OssTemplate;
@@ -16,8 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.Bucket;
+import software.amazon.awssdk.services.s3.model.Grant;
+import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +30,7 @@ import java.util.UUID;
 public class MinoServiceImpl implements MinioService {
 
     private final OssTemplate ossTemplate;
-    private final AmazonS3 amazonS3;
+    private final S3Client amazonS3;
 
     @Override
     public void upload(String bucketName, List<MultipartFile> files) {
@@ -57,7 +54,7 @@ public class MinoServiceImpl implements MinioService {
     }
 
     @Override
-    public ObjectListing listObjects(String bucketName) {
+    public ListObjectsResponse listObjects(String bucketName) {
         return ossTemplate.listObjects(bucketName);
     }
 
@@ -65,28 +62,12 @@ public class MinoServiceImpl implements MinioService {
     public String testVisitPrivate() {
         Date expiration = new Date(System.currentTimeMillis() + 1000 * 60);
 
-        try {
-            // 生成预签名 URL 的请求
-            GeneratePresignedUrlRequest generatePresignedUrlRequest =
-                    new GeneratePresignedUrlRequest("privatebucket", "aaa.PNG")
-                            .withMethod(HttpMethod.GET)
-                            .withExpiration(expiration);
-            // 生成预签名 URL
-            URL url = amazonS3.generatePresignedUrl(generatePresignedUrlRequest);
-            return url.toString();
-        } catch (Exception e) {
-           log.error(e.getMessage());
-        }
         return "";
     }
 
     @Override
     public List<Grant> getBucketAcl(String bucketName) {
-        try {
-            return amazonS3.getBucketAcl(bucketName).getGrantsAsList();
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+
         return List.of();
     }
 }

@@ -1,13 +1,6 @@
 package com.chensino.common.oss.config;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.Protocol;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,6 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @Configuration
 @AllArgsConstructor
@@ -28,22 +28,26 @@ public class S3Configuration {
 
     @Bean
     @Lazy(value = false)
-    public AmazonS3 getAmazonS3() {
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setMaxConnections(s3Properties.getMaxConnections());
-        //使用http,mino默认是http
-        clientConfiguration.setProtocol(Protocol.HTTP);
+    public  S3Client createS3Client() {
+        // 创建凭证提供者
+        var credentialsProvider = StaticCredentialsProvider.create(
+                AwsBasicCredentials.create(s3Properties.getAccessKey(), s3Properties.getSecretKey()));
 
-        AWSCredentials credentials = new BasicAWSCredentials(s3Properties.getAccessKey(), s3Properties.getSecretKey());
+        // 如果有自定义域名，则使用自定义端点；否则使用默认的区域端点
+        URI endpointOverride = null;
+        if (s3Properties.getCustomDomain() != null && !s3Properties.getCustomDomain().isEmpty()) {
+            try {
+                endpointOverride = new URI(s3Properties.getCustomDomain());
+            } catch (URISyntaxException e) {
+                throw new IllegalArgumentException("Invalid custom domain URI", e);
+            }
+        }
 
-        AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
-                s3Properties.getEndpoint(), s3Properties.getRegion());
-
-        return AmazonS3ClientBuilder.standard()
-                .withClientConfiguration(clientConfiguration)
-                .withEndpointConfiguration(endpointConfiguration)
-                .withCredentials(new AWSStaticCredentialsProvider(credentials)).withPathStyleAccessEnabled(true)
+        return S3Client.builder()
+                .credentialsProvider(credentialsProvider)
+                .region(Region.of(s3Properties.getRegion()))
+                .forcePathStyle(s3Properties.getPathStyleAccess())
+                .endpointOverride(endpointOverride)
                 .build();
-
     }
 }
