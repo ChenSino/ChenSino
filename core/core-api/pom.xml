@@ -40,6 +40,10 @@
         </dependency>
         <dependency>
             <groupId>com.chensino</groupId>
+            <artifactId>common-oss</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.chensino</groupId>
             <artifactId>common-elasticsearch</artifactId>
         </dependency>
         <!--JDBC相关-->

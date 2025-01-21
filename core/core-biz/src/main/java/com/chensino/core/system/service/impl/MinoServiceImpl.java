@@ -5,15 +5,15 @@ import cn.hutool.core.text.StrPool;
 import com.chensino.common.core.exception.BadParameterException;
 import com.chensino.common.core.exception.BusinessException;
 import com.chensino.common.oss.service.OssTemplate;
+import com.chensino.core.api.dto.BucketDTO;
+import com.chensino.core.api.dto.S3ObjectDTO;
 import com.chensino.core.system.service.MinioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.Grant;
-import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +30,6 @@ import java.util.UUID;
 public class MinoServiceImpl implements MinioService {
 
     private final OssTemplate ossTemplate;
-    private final S3Client amazonS3;
 
     @Override
     public void upload(String bucketName, List<MultipartFile> files) {
@@ -49,13 +48,17 @@ public class MinoServiceImpl implements MinioService {
     }
 
     @Override
-    public List<Bucket> getAllBuckets() {
-        return ossTemplate.getAllBuckets();
+    public List<BucketDTO> getAllBuckets() {
+        List<Bucket> buckets = ossTemplate.getAllBuckets();
+        // 将 Bucket 列表转换为 BucketDTO 列表
+        return BucketDTO.toDTOList(buckets);
+
     }
 
     @Override
-    public ListObjectsResponse listObjects(String bucketName) {
-        return ossTemplate.listObjects(bucketName);
+    public List<S3ObjectDTO> listObjects(String bucketName) {
+        return ossTemplate.listObjects(bucketName).contents().stream().map(S3ObjectDTO::from
+        ).toList();
     }
 
     @Override

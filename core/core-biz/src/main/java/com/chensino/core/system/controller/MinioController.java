@@ -3,6 +3,8 @@ package com.chensino.core.system.controller;
 import com.chensino.common.core.util.ResponseEntity;
 import com.chensino.common.log.annotation.SysLog;
 import com.chensino.common.security.component.annotation.OpenApi;
+import com.chensino.core.api.dto.BucketDTO;
+import com.chensino.core.api.dto.S3ObjectDTO;
 import com.chensino.core.system.service.MinioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,9 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.Grant;
-import software.amazon.awssdk.services.s3.model.ListObjectsResponse;
 
 import java.util.List;
 
@@ -31,14 +31,14 @@ public class MinioController {
     @PostMapping("upload")
     @Operation(summary = "多文件上传", description = "多文件上传")
     @Parameter(name = "files", description = "文件", required = true)
-    public ResponseEntity<Void> uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam String bucket) {
+    public ResponseEntity<Void> uploadFile(@RequestParam("files") List<MultipartFile> files, @RequestParam(name = "bucket") String bucket) {
         minioService.upload(bucket, files);
         return ResponseEntity.ok();
     }
 
     @GetMapping("buckets")
     @Operation(summary = "查询桶列表", description = "查询桶列表")
-    public ResponseEntity<List<Bucket>> listBuckets() {
+    public ResponseEntity<List<BucketDTO>> listBuckets() {
         return ResponseEntity.ok(minioService.getAllBuckets());
     }
 
@@ -54,7 +54,7 @@ public class MinioController {
     @SysLog("查询文件列表")
     @Operation(summary = "查询某个桶文件列表", description = "查询某个桶文件列表")
     @Parameter(name = "bucketName", description = "桶名", required = true)
-    public ResponseEntity<ListObjectsResponse> listFilesByBucket(@PathVariable(value = "bucketName") String bucketName) {
+    public ResponseEntity<List<S3ObjectDTO>> listFilesByBucket(@PathVariable(value = "bucketName") String bucketName) {
         return ResponseEntity.ok(minioService.listObjects(bucketName));
     }
 
