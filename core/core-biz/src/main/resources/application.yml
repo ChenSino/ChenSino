@@ -130,11 +130,6 @@ oauth:
     userInfoUrl: https://api.github.com/user
     frontendHost: http://chensino-web:3333
 
-springfox:
-  documentation:
-    swagger-ui:
-      enabled: true
-
 
 security:
   whiteList:

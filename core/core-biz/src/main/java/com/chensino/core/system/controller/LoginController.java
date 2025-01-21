@@ -2,7 +2,6 @@ package com.chensino.core.system.controller;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.chensino.common.core.util.ResponseEntity;
-import com.chensino.common.log.annotation.SysLog;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.properties.GithubProperties;
 import com.chensino.core.api.vo.LoginUserVO;

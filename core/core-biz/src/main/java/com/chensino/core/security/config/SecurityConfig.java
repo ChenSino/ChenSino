@@ -35,22 +35,15 @@ public class SecurityConfig {
 
 
     private final UserDetailsService userDetailsService;
-
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
-
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-
     private final PhoneAuthenticationProvider phoneAuthenticationProvider;
-
     private final GithubAuthenticationProvider githubAuthenticationProvider;
-
     private final PermitAllRequestMatcher permitAllRequestMatcher;
 
 
     /**
      * 自定义密码加密方式，解密会自动调用PasswordEncoder的match方法
-     *
-     * @return
      */
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -61,8 +54,6 @@ public class SecurityConfig {
      * WebSecurity 处理静态资源不走过滤器，注意区别HttpSecurity,HttpSecurity主要用来处理后端接口，比如login接口虽然可以ignore,但是
      * 还有其他逻辑还要走过滤器，如果使用WebSecurity，则login直接就不会受到任何过滤器处理，代表这个接口已经超脱于Security之外了。一句话：
      * WebSecurity负责过滤不需要处理的静态资源，HttpSecurity负责处理普通的api接口。
-     *
-     * @return
      */
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
@@ -114,8 +105,6 @@ public class SecurityConfig {
     /**
      * 默认AuthenticationProvider,如果创建了自定义AuthenticationProvider，则默认的就不会被注入到AuthenticationManager,
      * 所以如果还想保留默认的，需要手动创建bean,并在AuthenticationManager中注入
-     *
-     * @return
      */
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
