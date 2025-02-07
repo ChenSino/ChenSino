@@ -27,7 +27,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -99,12 +98,10 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.authenticationProvider(phoneAuthenticationProvider);
         authenticationManagerBuilder.authenticationProvider(githubAuthenticationProvider);
         authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
-
         return authenticationManagerBuilder.build();
     }
 
@@ -122,14 +119,14 @@ public class SecurityConfig {
     }
 
     /**
-     * 自定义防火墙另一种方式，{@link com.chensino.core.security.firewall.CustomFirewall}
-     * 在原来的防火墙基础上修改
-     * @return
+     * 防火墙配置
+     * @return HttpFirewall
      */
-//    @Bean
-//    public HttpFirewall strictHttpFirewall() {
-//        StrictHttpFirewall strictHttpFirewall = new StrictHttpFirewall();
-//        strictHttpFirewall.setAllowedHttpMethods(List.of("post"));
-//        return strictHttpFirewall;
-//    }
+    @Bean
+    public HttpFirewall strictHttpFirewall() {
+        StrictHttpFirewall strictHttpFirewall = new StrictHttpFirewall();
+        //允许的请求方法
+        strictHttpFirewall.setAllowedHttpMethods(List.of( "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST",  "PUT"));
+        return strictHttpFirewall;
+    }
 }

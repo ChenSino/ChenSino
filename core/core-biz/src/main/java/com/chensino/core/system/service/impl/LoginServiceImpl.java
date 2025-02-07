@@ -1,9 +1,11 @@
 package com.chensino.core.system.service.impl;
 
+import cn.hutool.core.text.StrPool;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.chensino.common.data.configuration.cache.IGlobalCache;
+import com.chensino.common.data.configuration.constant.CacheConst;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.entity.SysUserThird;
 import com.chensino.core.api.properties.GithubProperties;
@@ -13,6 +15,7 @@ import com.chensino.core.system.factory.LoginTypeEnum;
 import com.chensino.core.system.mapper.SysUserThirdMapper;
 import com.chensino.core.system.service.LoginService;
 import com.chensino.core.system.service.SysUserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +31,11 @@ import java.util.Map;
 @Data
 @Slf4j
 public class LoginServiceImpl implements LoginService {
+
     private final IGlobalCache redisTemplate;
-
     private final AuthenticationManager authenticationManager;
-
     private final SysUserService sysUserService;
-
     private final SysUserThirdMapper sysUserThirdMapper;
-
     private final GithubProperties githubProperties;
 
     @Value("${token.expiration}")
@@ -44,6 +44,12 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public LoginUserVO login(UserLoginDTO userLoginDTO) {
         return LoginStrategyFactory.getLoginStrategy(LoginTypeEnum.valueOf(userLoginDTO.getLoginType())).login(userLoginDTO);
+    }
+
+    @Override
+    public void logout(HttpServletRequest request) {
+        String token = request.getHeader("X-token");
+        redisTemplate.del(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + token);
     }
 
     @Override
@@ -69,12 +75,11 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void githubRedirect(HttpServletResponse response) throws IOException {
-        StringBuilder url = new StringBuilder();
-        url.append(githubProperties.getAuthorizeUrl())
-                .append("?client_id=")
-                .append(githubProperties.getClientId())
-                .append("&redirect_uri=")
-                .append(githubProperties.getRedirectUri());
-        response.sendRedirect(url.toString());
+        String url = githubProperties.getAuthorizeUrl() +
+                "?client_id=" +
+                githubProperties.getClientId() +
+                "&redirect_uri=" +
+                githubProperties.getRedirectUri();
+        response.sendRedirect(url);
     }
 }

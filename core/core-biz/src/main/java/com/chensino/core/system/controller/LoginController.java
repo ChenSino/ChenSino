@@ -2,12 +2,14 @@ package com.chensino.core.system.controller;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.chensino.common.core.util.ResponseEntity;
+import com.chensino.common.log.annotation.SysLog;
 import com.chensino.core.api.dto.UserLoginDTO;
 import com.chensino.core.api.properties.GithubProperties;
 import com.chensino.core.api.vo.LoginUserVO;
 import com.chensino.core.system.service.LoginService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import org.springframework.stereotype.Controller;
@@ -33,16 +35,25 @@ public class LoginController {
 
     @PostMapping
     @ResponseBody
-//    @SysLog("登录接口")
+    @SysLog("登录接口")
     @Operation(summary = "登录接口", description = "登录接口")
     public ResponseEntity<LoginUserVO> login(@RequestBody @Validated  UserLoginDTO userLoginDTO) {
         return ResponseEntity.ok(loginService.login(userLoginDTO));
     }
 
+    @GetMapping
+    @ResponseBody
+//    @SysLog("退出登录")
+    @Operation(summary = "退出登录", description = "退出登录")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        loginService.logout(request);
+        return ResponseEntity.ok();
+    }
+
     /**
      * 前端github的oauth请求，也可以前端直接请求github的授权地址
-     * @param response
-     * @throws IOException
+     * @param response response
+     * @throws IOException 异常
      */
     @GetMapping("/oauth2/github")
     @Operation(summary = "github授权页面", description = "github授权页面")
