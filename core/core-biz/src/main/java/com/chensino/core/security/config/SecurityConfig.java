@@ -77,8 +77,9 @@ public class SecurityConfig {
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 // 使用新的请求授权配置
                 .authorizeHttpRequests(authorize -> authorize
-                        // 自定义url匹配规则
+                        // 自定义放行的url
                         .requestMatchers(permitAllRequestMatcher).permitAll()
+                        // 其他请求都需要认证
                         .anyRequest().authenticated()
                 )
                 // 禁用 CSRF

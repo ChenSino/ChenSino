@@ -9,7 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -38,7 +37,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        //3. 根据token查询用户信息，目标是设置SecurityContext
+        //3. 根据token查询用户信息，目标是设置SecurityContext，若用户随便输入token，则SecurityContext为空，后续的FilterInterceptor会校验权限，没有权限依然无法访问接口
         CustomSecurityUser customSecurityUser = redisTemplate.get(CacheConst.ACCESS_TOKEN_PREFIX + StrPool.COLON + token);
         if (Objects.nonNull(customSecurityUser)) {
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(customSecurityUser.getUsername(), customSecurityUser.getPassword(), customSecurityUser.getAuthorities());
