@@ -23,7 +23,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 
@@ -46,6 +48,8 @@ public class SecurityConfig {
     private final GithubAuthenticationProvider githubAuthenticationProvider;
     private final PermitAllRequestMatcher permitAllRequestMatcher;
     private final SecurityProperties securityProperties;
+    private final LogoutHandler customLogoutHandler;
+    private final LogoutSuccessHandler customLogoutSuccessHandler;
 
 
     /**
@@ -74,7 +78,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain webSiteSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter, LogoutFilter.class)
                 // 使用新的请求授权配置
                 .authorizeHttpRequests(authorize -> authorize
                         // 自定义放行的url
@@ -91,8 +95,12 @@ public class SecurityConfig {
                 // 禁止生成 session
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
-
+                )
+                //登出配置
+                .logout(logout ->
+                        logout.logoutUrl("/logout")
+                                .addLogoutHandler(customLogoutHandler)
+                                .logoutSuccessHandler(customLogoutSuccessHandler));
         return http.build();
     }
 
@@ -121,13 +129,14 @@ public class SecurityConfig {
 
     /**
      * 防火墙配置
+     *
      * @return HttpFirewall
      */
     @Bean
     public HttpFirewall strictHttpFirewall() {
         StrictHttpFirewall strictHttpFirewall = new StrictHttpFirewall();
         //允许的请求方法
-        strictHttpFirewall.setAllowedHttpMethods(List.of( "DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST",  "PUT"));
+        strictHttpFirewall.setAllowedHttpMethods(List.of("DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"));
         return strictHttpFirewall;
     }
 }

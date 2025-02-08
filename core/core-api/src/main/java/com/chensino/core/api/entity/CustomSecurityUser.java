@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
 
+import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -13,33 +14,31 @@ import java.util.Collection;
  * @Description
  * @Date 2022/9/26
  */
+@Getter
 public class CustomSecurityUser extends User {
 
+    @Serial
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
     /**
      * 用户ID
      */
-    @Getter
-    private Long id;
+    private final Long id;
 
     /**
      * 部门ID
      */
-    @Getter
-    private Integer deptId;
+    private final Integer deptId;
 
     /**
      * 手机号
      */
-    @Getter
-    private String phone;
+    private final String phone;
 
     /**
      * 头像
      */
-    @Getter
-    private String avatar;
+    private final String avatar;
 
 
 

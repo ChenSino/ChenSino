@@ -11,8 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class MyCommandLineRunner implements CommandLineRunner {
     @Override
-    public void run(String... args) throws Exception {
-        log.info("执行自定义CommandLineRunner");
-        log.info("{}", args);
+    public void run(String... args) {
+        log.info("执行自定义CommandLineRunner,args");
     }
 }
